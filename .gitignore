@@ -1,0 +1,6 @@
+packages
+TestResults
+obj/
+bin/
+*.pdb
+*.dll

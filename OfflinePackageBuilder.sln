@@ -1,0 +1,59 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Biz", "Biz\Biz.csproj", "{B89CE071-1896-4380-B313-C61E375FA15E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj", "{AAF49D1F-944D-41D8-9133-62786573026A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{D220AE08-5A8D-4733-B95F-ECFF3F51B559}"
+	ProjectSection(SolutionItems) = preProject
+		Local.testsettings = Local.testsettings
+		OfflinePackageBuilder.vsmdi = OfflinePackageBuilder.vsmdi
+		TraceAndTestImpact.testsettings = TraceAndTestImpact.testsettings
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{785DEAB2-BC43-4E1A-8CD7-432F4535941D}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\NuGet.Config = .nuget\NuGet.Config
+		.nuget\NuGet.exe = .nuget\NuGet.exe
+		.nuget\NuGet.targets = .nuget\NuGet.targets
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(TestCaseManagementSettings) = postSolution
+		CategoryFile = OfflinePackageBuilder.vsmdi
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|Mixed Platforms = Debug|Mixed Platforms
+		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
+		Release|Mixed Platforms = Release|Mixed Platforms
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B89CE071-1896-4380-B313-C61E375FA15E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B89CE071-1896-4380-B313-C61E375FA15E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B89CE071-1896-4380-B313-C61E375FA15E}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{B89CE071-1896-4380-B313-C61E375FA15E}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{B89CE071-1896-4380-B313-C61E375FA15E}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{B89CE071-1896-4380-B313-C61E375FA15E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B89CE071-1896-4380-B313-C61E375FA15E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B89CE071-1896-4380-B313-C61E375FA15E}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{B89CE071-1896-4380-B313-C61E375FA15E}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{B89CE071-1896-4380-B313-C61E375FA15E}.Release|x86.ActiveCfg = Release|Any CPU
+		{AAF49D1F-944D-41D8-9133-62786573026A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AAF49D1F-944D-41D8-9133-62786573026A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AAF49D1F-944D-41D8-9133-62786573026A}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{AAF49D1F-944D-41D8-9133-62786573026A}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{AAF49D1F-944D-41D8-9133-62786573026A}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{AAF49D1F-944D-41D8-9133-62786573026A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AAF49D1F-944D-41D8-9133-62786573026A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AAF49D1F-944D-41D8-9133-62786573026A}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{AAF49D1F-944D-41D8-9133-62786573026A}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{AAF49D1F-944D-41D8-9133-62786573026A}.Release|x86.ActiveCfg = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
