@@ -1,9 +1,17 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <TestSettings name="Local" id="0611ca01-1d2c-4305-8355-e6fa13c3da10" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
   <Description>These are default test settings for a local test run.</Description>
-  <Deployment enabled="false" />
+  <Deployment>
+    <DeploymentItem filename="Tests\TestData\" />
+  </Deployment>
   <Execution>
-    <TestTypeSpecific />
+    <TestTypeSpecific>
+      <UnitTestRunConfig testTypeId="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b">
+        <AssemblyResolution>
+          <TestDirectory useLoadContext="true" />
+        </AssemblyResolution>
+      </UnitTestRunConfig>
+    </TestTypeSpecific>
     <AgentRule name="Execution Agents">
     </AgentRule>
   </Execution>

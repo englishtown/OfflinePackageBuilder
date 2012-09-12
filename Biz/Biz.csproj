@@ -48,9 +48,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ConstantsDefault.cs" />
+    <Compile Include="CourseContentService.cs" />
+    <Compile Include="DownloadManager.cs" />
     <Compile Include="Extensions\StringExtension.cs" />
+    <Compile Include="IContentServcie.cs" />
+    <Compile Include="ICourseStructureManager.cs" />
+    <Compile Include="IDownloadManager.cs" />
+    <Compile Include="LevelContentService.cs" />
     <Compile Include="Models\Activity.cs" />
-    <Compile Include="CourseStructure.cs" />
+    <Compile Include="CourseStructureManager.cs" />
+    <Compile Include="ActivityContentService.cs" />
     <Compile Include="Models\Course.cs" />
     <Compile Include="Models\IBaseModule.cs" />
     <Compile Include="Models\Lesson.cs" />
@@ -58,6 +66,7 @@
     <Compile Include="Models\Step.cs" />
     <Compile Include="Models\Unit.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UnitContentService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

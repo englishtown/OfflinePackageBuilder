@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Newtonsoft.Json.Linq;
+using Biz.Extensions;
 
 namespace Biz.Models
 {
@@ -19,10 +20,10 @@ namespace Biz.Models
         public IList<IBaseModule> SubModules { get; set; }
         public IEnumerable<JToken> jModule { get; set; }
 
-        public Activity(JArray courseStructure, int activityId, IBaseModule parentModule)
+        public Activity(Dictionary<string, List<JToken>> csArray, int activityId, IBaseModule parentModule)
         {
             this.jModule =
-                 from p in courseStructure.Children()
+                 from p in csArray["activity"]
                  where p["id"].ToString().Equals("activity!" + activityId)
                  select p;
 
@@ -32,16 +33,17 @@ namespace Biz.Models
             //
             BuildModule();
 
-            BuildSubmodule(courseStructure);
+            BuildSubmodule(csArray);
         }
 
         public void BuildModule()
         {
+            this.Id = jModule.First()["id"].ToString().GetId();
             this.ActivityNo = int.Parse(jModule.First()["activityNo"].ToString());
             this.GradeMode_id = int.Parse(jModule.First()["gradeMode_id"].ToString());
         }
 
-        public void BuildSubmodule(JArray courseStructure)
+        public void BuildSubmodule(Dictionary<string, List<JToken>> csArray)
         {
             return;
         }

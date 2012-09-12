@@ -26,17 +26,17 @@ namespace Biz.Models
             set { value = this.Levels as IList<IBaseModule>; }
         }
 
-        public Course(JArray courseStructure, int moduleId)
+        public Course(int moduleId, Dictionary<string, List<JToken>> csArray)
         {
             this.jModule =
-               from p in courseStructure.Children()
+               from p in csArray["course"].AsParallel()
                where p["id"].ToString().Equals("course!" + moduleId)
                select p;
 
             //Build
             BuildModule();
 
-            BuildSubmodule(courseStructure);
+            BuildSubmodule(csArray);
         }
 
         public void BuildModule()
@@ -46,14 +46,14 @@ namespace Biz.Models
             this.CourseTypeCode = jModule.First()["courseTypeCode"].ToString();
         }
 
-        public void BuildSubmodule(JArray courseStructure)
+        public void BuildSubmodule(Dictionary<string, List<JToken>> csArray)
         {
             this.Levels = new List<Level>();
 
             foreach (var s in jModule.First()["levels"].Children())
             {
                 var levelId = s["id"].ToString().GetId();
-                this.Levels.Add(new Level(courseStructure, levelId, this));
+                this.Levels.Add(new Level(csArray, levelId, this));
             }
         }
     }

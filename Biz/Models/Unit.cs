@@ -21,10 +21,10 @@ namespace Biz.Models
         public IList<IBaseModule> SubModules { get; set; }
         public IEnumerable<JToken> jModule { get; set; }
 
-        public Unit(JArray courseStructure, int unitId, IBaseModule parentModule)
+        public Unit(Dictionary<string, List<JToken>> csArray, int unitId, IBaseModule parentModule)
         {
             this.jModule =
-                 from p in courseStructure.Children()
+                 from p in csArray["unit"].AsParallel()
                  where p["id"].ToString().Equals("unit!" + unitId)
                  select p;
 
@@ -33,22 +33,23 @@ namespace Biz.Models
             //
             BuildModule();
 
-            BuildSubmodule(courseStructure);
+            BuildSubmodule(csArray);
         }
 
         public void BuildModule()
         {
+            this.Id = jModule.First()["id"].ToString().GetId();
             this.unitName = jModule.First()["unitName"].ToString();
         }
 
-        public void BuildSubmodule(JArray courseStructure)
+        public void BuildSubmodule(Dictionary<string, List<JToken>> csArray)
         {
             this.Lessons = new List<Lesson>();
 
             foreach (var s in jModule.First()["lessons"].Children())
             {
                 var unitId = s["id"].ToString().GetId();
-                this.Lessons.Add(new Lesson(courseStructure, unitId, this));
+                this.Lessons.Add(new Lesson(csArray, unitId, this));
             }
         }
     }

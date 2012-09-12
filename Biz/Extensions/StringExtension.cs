@@ -16,5 +16,10 @@ namespace Biz.Extensions
         {
             return int.Parse(s.Split('!')[1]);
         }
+
+        public static string GetETType(this string s)
+        {
+            return s.Split('!')[0];
+        }
     }
 }

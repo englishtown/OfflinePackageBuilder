@@ -19,6 +19,6 @@ namespace Biz.Models
 
         void BuildModule();
 
-        void BuildSubmodule(JArray courseStructure);
+        void BuildSubmodule(Dictionary<string, List<JToken>> csArray);
     }
 }

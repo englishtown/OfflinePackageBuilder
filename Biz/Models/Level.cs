@@ -22,10 +22,10 @@ namespace Biz.Models
 
         public IEnumerable<JToken> jModule { get; set; }
 
-        public Level(JArray courseStructure, int levelId, IBaseModule parentModule)
+        public Level(Dictionary<string, List<JToken>> csArray, int levelId, IBaseModule parentModule)
         {
             this.jModule =
-                 from p in courseStructure.Children()
+                 from p in csArray["level"].AsParallel()
                  where p["id"].ToString().Equals("level!" + levelId)
                  select p;
 
@@ -34,24 +34,25 @@ namespace Biz.Models
             //
             BuildModule();
 
-            BuildSubmodule(courseStructure);
+            BuildSubmodule(csArray);
         }
 
         public void BuildModule()
         {
+            this.Id = jModule.First()["id"].ToString().GetId();
             this.levelCode = jModule.First()["levelCode"].ToString();
             this.levelNo = int.Parse(jModule.First()["levelNo"].ToString());
             this.levelName = jModule.First()["levelName"].ToString();
         }
 
-        public void BuildSubmodule(JArray courseStructure)
+        public void BuildSubmodule(Dictionary<string, List<JToken>> csArray)
         {
             this.Units = new List<Unit>();
 
             foreach (var s in jModule.First()["units"].Children())
             {
                 var unitId = s["id"].ToString().GetId();
-                this.Units.Add(new Unit(courseStructure, unitId, this));
+                this.Units.Add(new Unit(csArray, unitId, this));
             }
         }
     }

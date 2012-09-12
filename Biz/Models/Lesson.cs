@@ -23,10 +23,10 @@ namespace Biz.Models
         public IList<IBaseModule> SubModules { get; set; }
         public IEnumerable<JToken> jModule { get; set; }
 
-        public Lesson(JArray courseStructure, int lessonId, IBaseModule parentModule)
+        public Lesson(Dictionary<string, List<JToken>> csArray, int lessonId, IBaseModule parentModule)
         {
             this.jModule =
-                 from p in courseStructure.Children()
+                 from p in csArray["lesson"].AsParallel()
                  where p["id"].ToString().Equals("lesson!" + lessonId)
                  select p;
 
@@ -35,11 +35,12 @@ namespace Biz.Models
             //
             BuildModule();
 
-            BuildSubmodule(courseStructure);
+            BuildSubmodule(csArray);
         }
 
         public void BuildModule()
         {
+            this.Id = jModule.First()["id"].ToString().GetId();
             this.LessonNo = jModule.First()["lessonNo"].ToString();
             this.LessonTopic = jModule.First()["lessonTopic"].ToString();
             this.LessonTypeName = jModule.First()["lessonTypeName"].ToString();
@@ -47,14 +48,14 @@ namespace Biz.Models
             this.Lessontype_id = int.Parse(jModule.First()["lessonType_id"].ToString());
         }
 
-        public void BuildSubmodule(JArray courseStructure)
+        public void BuildSubmodule(Dictionary<string, List<JToken>> csArray)
         {
             this.Steps = new List<Step>();
 
             foreach (var s in jModule.First()["steps"].Children())
             {
                 var stepId = s["id"].ToString().GetId();
-                this.Steps.Add(new Step(courseStructure, stepId, this));
+                this.Steps.Add(new Step(csArray, stepId, this));
             }
         }
     }
