@@ -4,27 +4,41 @@ using System.Linq;
 using System.Text;
 using System.Net;
 using System.IO;
+using Microsoft.Practices.EnterpriseLibrary.Logging;
 
 namespace Biz
 {
     public class DownloadManager : IDownloadManager
     {
-        public string DownloadFromPath(Uri path)
+        public LogEntry Logger { get; set; }
+
+        public string DownloadFromPath(Uri url)
         {
+            string courseContent = string.Empty;
             WebClient c = new WebClient();
             c.Headers.Add("Content-Type", "application/json; charset=utf-8");
 
-            var courseContent = c.DownloadString(path);
+            try
+            {
+                courseContent = c.DownloadString(url);
+            }
+            catch (WebException ex)
+            {
+                Logger.Message = "AaaaaaYa:(-" + ex;
+            }
 
             return courseContent;
         }
 
-
-        public void DownloadFromPathTo(Uri url, string path)
+        public string DownloadFromPath(Uri url, string path)
         {
-            WebClient c = new WebClient();
-            c.Headers.Add("Content-Type", "application/json; charset=utf-8");
+            var data = DownloadFromPath(url);
+            SaveTo(data, path);
+            return data;
+        }
 
+        public void SaveTo(string content, string path)
+        {
             if (Directory.Exists(Path.GetDirectoryName(path)))
             {
             }
@@ -36,9 +50,10 @@ namespace Biz
             try
             {
                 // Save the content to some path use Async
-                c.DownloadFile(url, path);
+                //c.DownloadFile(url, path);
+                File.WriteAllText(path, content);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw ex;
             }

@@ -16,6 +16,9 @@ namespace Biz.Models
         public int GradeMode_id { get; set; }
         public string RemotePath { get; set; }
 
+        // Add media download path at here.
+        public IList<string> MediaResources { get; set; }
+
         public IBaseModule ParentModule { get; set; }
         public IList<IBaseModule> SubModules { get; set; }
         public IEnumerable<JToken> jModule { get; set; }

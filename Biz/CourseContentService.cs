@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Biz.Models;
+using Microsoft.Practices.EnterpriseLibrary.Logging;
 
 namespace Biz
 {
@@ -10,6 +11,8 @@ namespace Biz
     {
         public int Id { get; set; }
         public string Content { get; set; }
+
+        public LogEntry Logger { get; set; }
 
         public CourseContentService(Course course)
         {

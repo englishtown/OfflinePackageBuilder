@@ -8,6 +8,7 @@ using Newtonsoft.Json.Linq;
 using Biz.Models;
 
 using Biz.Extensions;
+using Microsoft.Practices.EnterpriseLibrary.Logging;
 
 namespace Biz
 {
@@ -22,6 +23,8 @@ namespace Biz
         public string SiteVersion { get; set; }
         public string CultureCode { get; set; }
         public string PartnerCode { get; set; }
+
+        public LogEntry Logger { get; set; }
 
         public CourseStructureManager(IDownloadManager dm, int courseId, string siteVersion, string cultureCode, string partnerCode)
         {
@@ -42,7 +45,7 @@ namespace Biz
         public string DownloadCourseStructure(int courseId)
         {
             // Get all course content.
-            var fullContentLink = new Uri(ConstantsDefault.SitePrefix + string.Format(courseLink, courseId, this.SiteVersion, this.CultureCode, this.PartnerCode));
+            var fullContentLink = new Uri(ConstantsDefault.ServicePrefix + string.Format(courseLink, courseId, this.SiteVersion, this.CultureCode, this.PartnerCode));
 
             return dm.DownloadFromPath(fullContentLink);
         }
@@ -131,8 +134,19 @@ namespace Biz
             {
                 foreach (Activity a in s.Activities)
                 {
-                    ActivityContentService acs = new ActivityContentService(this.dm, a.Id, this.SiteVersion, this.CultureCode, this.PartnerCode);
-                    acs.DownloadTo(@"d:\offline\activities\" + this.CultureCode + @"\" + a.Id + ".json");
+                    int unitId = a.ParentModule.ParentModule.ParentModule.Id;
+                    int lessonId = a.ParentModule.Id;
+
+                    ActivityContentService acs = new ActivityContentService(this.dm, a, this.SiteVersion, this.CultureCode, this.PartnerCode);
+                    acs.DownloadTo(@"d:\offline\activities\" + "unit" + unitId + @"\" + this.CultureCode + @"\" + a.Id + ".json");
+
+                    foreach (var mediaPath in a.MediaResources)
+                    {
+                        IDownloadManager d = new DownloadManager();
+                        IContentServcie mediaService = new MediaResourceService(mediaPath, d);
+                        var path = @"d:\offline\meida\" + "lesson" + lessonId + @"\" + this.CultureCode + mediaPath;
+                        mediaService.DownloadTo(path);
+                    }
                 }
             }
         }

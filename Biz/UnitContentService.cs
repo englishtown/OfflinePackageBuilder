@@ -19,7 +19,7 @@ namespace Biz
             this.Id = id;
 
             // Get all course content.
-            this.fullContentLink = new Uri(ConstantsDefault.SitePrefix + string.Format(unitLink, this.Id, siteVersion, cultureCode, partnerCode));
+            this.fullContentLink = new Uri(ConstantsDefault.ServicePrefix + string.Format(unitLink, this.Id, siteVersion, cultureCode, partnerCode));
         }
 
         public void DownloadTo(string path)
