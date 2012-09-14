@@ -22,7 +22,7 @@ namespace Biz
             }
             catch (WebException ex)
             {
-                Logger.Write("AaaaaaYa:(-" + ex);
+                Logger.Write(url.ToString() + '\n' +  ex);
             }
 
             return courseContent;

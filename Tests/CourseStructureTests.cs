@@ -21,7 +21,7 @@ namespace Tests
 
             LogEntry logEntry = new LogEntry();
 
-            using (StreamReader reader = new StreamReader(@"CourseStructure.json"))
+            using (StreamReader reader = new StreamReader(@"CourseStructureLite.json"))
             {
                 content = reader.ReadToEnd(); 
             }

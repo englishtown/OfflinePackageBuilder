@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Practices.EnterpriseLibrary.Logging;
+using System.IO;
 
 namespace Biz
 {
@@ -23,8 +24,18 @@ namespace Biz
             this.DownloadManager = dm;
         }
 
+        // Check is the media file exist on disk.
+        // 
+        public bool FileExist(string path)
+        {
+            return File.Exists(path);
+        }
+
         public void DownloadTo(string path)
         {
+            if (FileExist(path))
+                return;
+
             this.DownloadManager.DownloadFromPath(this.Url, path);
         }
     }
