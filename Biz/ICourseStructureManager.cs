@@ -11,7 +11,5 @@ namespace Biz
     {
         Course Course { get; set; }
         string DownloadCourseStructure(int courseId);
-
-        LogEntry Logger { get; set; }
     }
 }

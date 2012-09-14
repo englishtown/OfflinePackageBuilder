@@ -8,8 +8,6 @@ namespace Biz
 {
     public interface IDownloadManager
     {
-        LogEntry Logger { get; set; }
-
         string DownloadFromPath(Uri url);
 
         string DownloadFromPath(Uri url, string path);

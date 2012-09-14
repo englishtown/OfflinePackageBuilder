@@ -10,8 +10,6 @@ namespace Biz
 {
     public class DownloadManager : IDownloadManager
     {
-        public LogEntry Logger { get; set; }
-
         public string DownloadFromPath(Uri url)
         {
             string courseContent = string.Empty;
@@ -24,7 +22,7 @@ namespace Biz
             }
             catch (WebException ex)
             {
-                Logger.Message = "AaaaaaYa:(-" + ex;
+                Logger.Write("AaaaaaYa:(-" + ex);
             }
 
             return courseContent;

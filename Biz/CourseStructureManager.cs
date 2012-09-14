@@ -24,10 +24,9 @@ namespace Biz
         public string CultureCode { get; set; }
         public string PartnerCode { get; set; }
 
-        public LogEntry Logger { get; set; }
-
         public CourseStructureManager(IDownloadManager dm, int courseId, string siteVersion, string cultureCode, string partnerCode)
         {
+            Logger.Write("ssss++++++++");
             this.dm = dm;
 
             this.SiteVersion = siteVersion;

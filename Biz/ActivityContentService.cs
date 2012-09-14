@@ -20,8 +20,6 @@ namespace Biz.Models
         public Activity Activity { get; set; }
         public string Content { get; set; }
 
-        public LogEntry Logger { get; set; }
-
         public ActivityContentService(IDownloadManager dm, Activity activity, string siteVersion, string cultureCode, string partnerCode)
         {
             // TODO:: How to test?

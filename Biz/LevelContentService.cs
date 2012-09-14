@@ -15,8 +15,6 @@ namespace Biz
         public int Id { get; set; }
         public string Content { get; set; }
 
-        public LogEntry Logger { get; set; }
-
         public LevelContentService(int id, string siteVersion, string cultureCode, string partnerCode)
         {
             this.Id = id;
