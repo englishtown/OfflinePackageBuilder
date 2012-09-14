@@ -17,6 +17,11 @@ namespace Biz.Models
         public int levelNo { get; set; }
         public string levelName { get; set; }
 
+        // Content Info
+        public string contentRemotePath { get; set; }
+        public long contentSize { get; set; }
+        public long contentSizeZiped { get; set; }
+
         public IBaseModule ParentModule { get; set; }
         public IList<IBaseModule> SubModules { get; set; }
 

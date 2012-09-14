@@ -70,25 +70,27 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConstantsDefault.cs" />
-    <Compile Include="CourseContentService.cs" />
-    <Compile Include="DownloadManager.cs" />
+    <Compile Include="Extensions\DirectoryExtension.cs" />
+    <Compile Include="Services\CourseContentService.cs" />
+    <Compile Include="Managers\DownloadManager.cs" />
     <Compile Include="Extensions\StringExtension.cs" />
-    <Compile Include="IContentServcie.cs" />
-    <Compile Include="ICourseStructureManager.cs" />
-    <Compile Include="IDownloadManager.cs" />
-    <Compile Include="LevelContentService.cs" />
-    <Compile Include="MediaResourceService.cs" />
+    <Compile Include="Services\IContentServcie.cs" />
+    <Compile Include="Managers\ICourseStructureManager.cs" />
+    <Compile Include="Managers\IDownloadManager.cs" />
+    <Compile Include="Services\LevelContentService.cs" />
+    <Compile Include="Services\MediaResourceService.cs" />
     <Compile Include="Models\Activity.cs" />
-    <Compile Include="CourseStructureManager.cs" />
-    <Compile Include="ActivityContentService.cs" />
+    <Compile Include="Managers\CourseStructureManager.cs" />
+    <Compile Include="Services\ActivityContentService.cs" />
     <Compile Include="Models\Course.cs" />
     <Compile Include="Models\IBaseModule.cs" />
     <Compile Include="Models\Lesson.cs" />
     <Compile Include="Models\Level.cs" />
     <Compile Include="Models\Step.cs" />
     <Compile Include="Models\Unit.cs" />
+    <Compile Include="Managers\PackageManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="UnitContentService.cs" />
+    <Compile Include="Services\UnitContentService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -37,7 +37,6 @@ namespace Tests
 
             ICourseStructureManager cs = new CourseStructureManager(mock.Object, 201, "development", "en", "none");
 
-
             Assert.IsNotNull(cs.Course);
         }
     }

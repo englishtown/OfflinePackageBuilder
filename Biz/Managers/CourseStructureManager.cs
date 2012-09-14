@@ -17,6 +17,7 @@ namespace Biz
         private const string courseLink = "/services/school/query?q=course!{0}.*&c=siteversion={1}|cultureCode={2}|partnerCode={3}";
 
         private readonly IDownloadManager dm;
+        private readonly PackageManager ps;
 
         public int Id { get; set; }
         public Course Course { get; set; }
@@ -27,6 +28,7 @@ namespace Biz
         public CourseStructureManager(IDownloadManager dm, int courseId, string siteVersion, string cultureCode, string partnerCode)
         {
             this.dm = dm;
+            this.ps = new PackageManager();
 
             this.SiteVersion = siteVersion;
             this.CultureCode = cultureCode;
@@ -114,7 +116,12 @@ namespace Biz
                 {
                     DownloadActivityContentByUnit(u);
                 }
+
+                // package the content by level.
+                this.PackageContentFile(l);
             }
+
+
         }
 
         private void DownloadActivityContentByUnit(Unit unit)
@@ -132,21 +139,48 @@ namespace Biz
             {
                 foreach (Activity a in s.Activities)
                 {
-                    int unitId = a.ParentModule.ParentModule.ParentModule.Id;
-                    int lessonId = a.ParentModule.Id;
+                    int levelId = a.ParentModule.ParentModule.ParentModule.ParentModule.Id;
+                    int lessonId = a.ParentModule.ParentModule.Id;
 
                     ActivityContentService acs = new ActivityContentService(this.dm, a, this.SiteVersion, this.CultureCode, this.PartnerCode);
-                    acs.DownloadTo(@"d:\offline\activities\" + "unit" + unitId + @"\" + this.CultureCode + @"\" + a.Id + ".json");
+                    acs.DownloadTo(ConstantsDefault.LocalContentPath + "level_" + levelId + @"\" + this.CultureCode + @"\" + a.Id + ".json");
 
+                    // Download the meida file.
                     foreach (var mediaPath in a.MediaResources)
                     {
                         IDownloadManager d = new DownloadManager();
                         IContentServcie mediaService = new MediaResourceService(mediaPath, d);
-                        var path = @"d:\offline\meida\" + "lesson" + lessonId + @"\" + this.CultureCode + mediaPath;
+                        var path = ConstantsDefault.LocalMediaPath + "lesson_" + lessonId + @"\" + mediaPath;
                         mediaService.DownloadTo(path);
                     }
                 }
             }
+
+            //Package Media by lesson
+            this.PackageMeidaFile("lesson_" + lesson.Id);
         }
+
+        // Package the name
+        private void PackageMeidaFile(string levelName)
+        {
+            var folderPath = ConstantsDefault.LocalMediaPath + levelName;
+            ps.Package(folderPath, ConstantsDefault.LocalMediaPath + levelName + ".zip");
+        }
+
+        // Package the content
+        private void PackageContentFile(IBaseModule m)
+        {
+            Level l = m as Level;
+            var levelName = "level_" + l.Id + "_" + this.CultureCode;
+
+            var folderPath = ConstantsDefault.LocalContentPath + "level_" + l.Id + @"\" + this.CultureCode + @"\";
+            var packagePath = ConstantsDefault.LocalContentPath + levelName + ".zip";
+            long a = 0;
+            folderPath.GetDirSize(ref a);
+
+            l.contentSize = a;
+            ps.Package(folderPath, packagePath);
+        }
+
     }
 }
