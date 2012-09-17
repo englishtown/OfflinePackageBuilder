@@ -23,7 +23,7 @@ namespace Biz.Services
             this.BaseModule = activity as Activity;
 
             // Get all course content.
-            this.fullContentLink = new Uri(constants.ServicePrefix + string.Format(courseLink, this.BaseModule.Id, constants.PartnerCode, constants.PartnerCode, constants.SiteVersion));
+            this.fullContentLink = new Uri(constants.ServicePrefix + string.Format(courseLink, this.BaseModule.Id, constants.PartnerCode, constants.CultureCode, constants.SiteVersion));
 
             // Download activity content.
             this.Content = downloadService.DownloadFromPath(this.fullContentLink);

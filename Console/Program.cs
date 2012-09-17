@@ -39,8 +39,6 @@ namespace Console
 
                                 IContentDownloadManager activityContent = new ActivityContentDownloadManager(ds, activity, activityContentService, dc);
                                 activityContent.Download();
-
-
                             }
                         }
 
