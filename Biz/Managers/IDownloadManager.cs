@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using Microsoft.Practices.EnterpriseLibrary.Logging;
 
-namespace Biz.Services
+namespace Biz.Manager
 {
-    public interface IDownloadService
+    public interface IDownloadManager
     {
         string DownloadFromPath(Uri url);
 

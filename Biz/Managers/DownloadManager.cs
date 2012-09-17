@@ -6,9 +6,9 @@ using System.Net;
 using System.IO;
 using Microsoft.Practices.EnterpriseLibrary.Logging;
 
-namespace Biz.Services
+namespace Biz.Manager
 {
-    public class DownloadService : IDownloadService
+    public class DownloadManager : IDownloadManager
     {
         public string DownloadFromPath(Uri url)
         {

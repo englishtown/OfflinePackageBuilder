@@ -2,6 +2,7 @@
 using Biz.Models;
 using Biz.Managers;
 using Biz.Services;
+using Biz.Manager;
 
 namespace Console
 {
@@ -9,7 +10,8 @@ namespace Console
     {
         static void Main(string[] args)
         {
-            IDownloadService ds = new DownloadService();
+            IDownloadManager ds = new DownloadManager();
+            IResourcePackageManager rpm;
 
             DefaultConstants dc = new DefaultConstants();
             dc.CultureCode = "en";
@@ -37,6 +39,9 @@ namespace Console
                                 IContentDownloadManager activityContent = new ActivityContentDownloadManager(ds, activity, dc);
                             }
                         }
+
+                        IResourcePackageManager mpm = new MediaResourcePackageManager(lesson, dc);
+                        mpm.Package();
                     }
 
                     // Get Unit content structure
@@ -47,6 +52,9 @@ namespace Console
                 // Get level content structure
                 IContentDownloadManager levelContent = new UnitContentDownloadManager(ds, level, dc);
                 levelContent.Download();
+
+                IResourcePackageManager cpm = new ContentResourcePackageManager(level, dc);
+                cpm.Package();
             }
 
         }

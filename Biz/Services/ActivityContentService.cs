@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using Biz.Models;
+using Biz.Manager;
 
 namespace Biz.Services
 {
@@ -10,16 +11,16 @@ namespace Biz.Services
         private const string courseLink = "/services/school/courseware/GetActivityXml.ashx?actvityId={0}&partnerCode={1}&cultureCode={2}&siteVersion={3}&showBlurbs=0&consistentCacheSvr=true&jsoncallback=_jsonp_";
         private readonly Uri fullContentLink;
 
-        private readonly IDownloadService dm;
+        private readonly IDownloadManager downloadManager;
 
         public int Id { get; set; }
         public Activity Activity { get; set; }
         public string Content { get; set; }
 
-        public ActivityContentService(IDownloadService dm, Activity activity, IConstants constants)
+        public ActivityContentService(IDownloadManager downloadManager, Activity activity, IConstants constants)
         {
             // TODO:: How to test?
-            this.dm = new DownloadService();
+            this.downloadManager = downloadManager;
 
             this.Activity = activity;
             this.Id = activity.Id;
@@ -30,7 +31,7 @@ namespace Biz.Services
 
         public void DownloadTo(string path)
         {
-            this.Content = dm.DownloadFromPath(this.fullContentLink);
+            this.Content = downloadManager.DownloadFromPath(this.fullContentLink);
 
             // Replace swf to jpg, flv to mp4
             ReplaceUrlFileFormat();
@@ -40,7 +41,7 @@ namespace Biz.Services
             ReplaceUrlToLocalResourcePath();
 
             // Save localed path to disk.
-            dm.SaveTo(this.Content, path);
+            downloadManager.SaveTo(this.Content, path);
         }
 
         /// Get the list of media resource path in the activity.</returns>

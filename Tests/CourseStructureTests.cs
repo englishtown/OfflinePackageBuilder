@@ -10,6 +10,7 @@ using System.IO;
 using Microsoft.Practices.EnterpriseLibrary.Logging;
 using Biz.Managers;
 using Biz.Services;
+using Biz.Manager;
 
 namespace Tests
 {
@@ -35,19 +36,17 @@ namespace Tests
             dc.PartnerCode = "none";
             dc.LocalContentPath = "";
 
-            IDownloadService ds = new DownloadService();
-
-            var mock = new Mock<IDownloadService>();
+            var mock = new Mock<IDownloadManager>();
             mock.Setup(foo => foo.DownloadFromPath(It.IsAny<Uri>())).Returns(content);
 
             //dm.Expect(ctx => ctx.DownloadFromPath(It.IsAny<Uri>())).Returns(list.ToString());
 
             //dm.Setup(f => f.DownloadFromPath(It.IsAny<Uri>())).Returns(list.ToString());
 
-            ICourseStructureManager css = new CourseStructureManager(ds, 201, dc);
+            ICourseStructureManager css = new CourseStructureManager(mock.Object, 201, dc);
             Course course = css.BuildCourseStructure();
 
-            IContentDownloadManager cdm = new LevelContentDownloadManager(ds, course, dc);
+            IContentDownloadManager cdm = new LevelContentDownloadManager(mock.Object, course, dc);
             cdm.Download();
             cdm.Download();
             cdm.Download();

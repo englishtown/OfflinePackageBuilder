@@ -19,6 +19,11 @@ namespace Biz.Models
         public string LessonDescr { get; set; }
         public int Lessontype_id { get; set; }
 
+        // For lesson Meida Package
+        public long MeidaOriSize { get; set; }
+        public long MeidaZipedSize { get; set; }
+        public string RemotePath { get; set; }
+
         public IBaseModule ParentModule { get; set; }
         public IList<IBaseModule> SubModules { get; set; }
         public IEnumerable<JToken> jModule { get; set; }

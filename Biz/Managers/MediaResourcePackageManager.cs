@@ -5,6 +5,11 @@ using System.Text;
 using Biz.Models;
 using Biz.Extensions;
 using Biz.Services;
+using System.IO;
+using Ionic.Zip;
+using System.Text.RegularExpressions;
+using Microsoft.Practices.EnterpriseLibrary.Logging;
+using Biz.Helper;
 
 namespace Biz.Managers
 {
@@ -12,7 +17,6 @@ namespace Biz.Managers
     {
         private readonly IBaseModule module;
         private readonly IConstants constants;
-        private readonly IPackageService packageService;
 
         public MediaResourcePackageManager(IBaseModule module, IConstants constants)
         {
@@ -22,17 +26,29 @@ namespace Biz.Managers
 
         public void Package()
         {
-            Level l = module as Level;
-            var levelName = "level_" + l.Id + "_" + this.constants.CultureCode;
+            // Todo
+            Lesson lesson = module as Lesson;
+            var lessonName = "lesson_" + lesson.Id;
 
-            var folderPath = this.constants.LocalContentPath + "level_" + l.Id + @"\" + this.constants.CultureCode + @"\";
-            var packagePath = this.constants.LocalContentPath + levelName + ".zip";
+            var folderPath = this.constants.LocalContentPath + "lesson_" + lesson.Id + @"\";
+            
+            // TODO:: Check the file changed
+            // TODO:: Version support;
+            var packagePath = this.constants.LocalContentPath + lessonName + ".zip";
 
-            long a = 0;
-            folderPath.GetDirSize(ref a);
+            long meidaOriSize = 0;
+            folderPath.GetDirSize(ref meidaOriSize);
 
-            l.contentSize = a;
-            //ps.Package(folderPath, packagePath);
-        }
+            //lesson = a;
+            var meidaZipedSize = PackageHelper.Package(folderPath, packagePath);
+
+            // Set package size to lesson
+            // TODO:: If the logic changed, don't download by lesson.
+            lesson.MeidaOriSize = meidaOriSize;
+            lesson.MeidaZipedSize = meidaZipedSize;
+
+            // TODO:: set remote path to lesson
+            lesson.RemotePath = packagePath;
+        }        
     }
 }

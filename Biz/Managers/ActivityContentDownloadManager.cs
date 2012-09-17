@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Biz.Models;
 using Biz.Services;
+using Biz.Manager;
 
 namespace Biz.Managers
 {
@@ -12,7 +13,7 @@ namespace Biz.Managers
         // private const string courseLink = "/services/school/query?q=course!{0}.*&c=siteversion={1}|cultureCode={2}|partnerCode={3}";
 
 
-        private readonly IDownloadService downloadService;
+        private readonly IDownloadManager downloadService;
 
         private readonly IConstants constants;
 
@@ -24,7 +25,7 @@ namespace Biz.Managers
         private readonly ActivityContentService acs;
 
         // 
-        public ActivityContentDownloadManager(IDownloadService downloadService, IBaseModule activity, IConstants constants)
+        public ActivityContentDownloadManager(IDownloadManager downloadService, IBaseModule activity, IConstants constants)
         {
             this.downloadService = downloadService;
             this.constants = constants;

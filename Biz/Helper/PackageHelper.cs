@@ -2,17 +2,17 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Ionic.Zip;
-using System.Text.RegularExpressions;
 using System.IO;
 using Microsoft.Practices.EnterpriseLibrary.Logging;
+using Ionic.Zip;
+using System.Text.RegularExpressions;
 
-namespace Biz
+namespace Biz.Helper
 {
-    public class PackageService
+    public class PackageHelper
     {
         // Zip a path to a zip file.
-        public long Package(string folderPath, string packagePath)
+        public static long Package(string folderPath, string packagePath)
         {
             if (!Directory.Exists(folderPath))
             {
@@ -32,7 +32,7 @@ namespace Biz
             return new FileInfo(packagePath).Length / 1024;
         }
 
-        private string GetFolderName(string path)
+        private static string GetFolderName(string path)
         {
             Regex r = new Regex(@"\\\w+");
             MatchCollection mc = r.Matches(path);
