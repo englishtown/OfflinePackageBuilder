@@ -6,7 +6,7 @@ using System.Net;
 using System.IO;
 using Microsoft.Practices.EnterpriseLibrary.Logging;
 
-namespace Biz
+namespace Biz.Services
 {
     public class DownloadService : IDownloadService
     {

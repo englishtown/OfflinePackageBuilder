@@ -1,13 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Net;
-using System.IO;
 using System.Text.RegularExpressions;
-using Microsoft.Practices.EnterpriseLibrary.Logging;
+using Biz.Models;
 
-namespace Biz.Models
+namespace Biz.Services
 {
     public class ActivityContentService : IContentServcie
     {
@@ -20,7 +16,7 @@ namespace Biz.Models
         public Activity Activity { get; set; }
         public string Content { get; set; }
 
-        public ActivityContentService(IDownloadService dm, Activity activity, string siteVersion, string cultureCode, string partnerCode)
+        public ActivityContentService(IDownloadService dm, Activity activity, IConstants constants)
         {
             // TODO:: How to test?
             this.dm = new DownloadService();
@@ -29,7 +25,7 @@ namespace Biz.Models
             this.Id = activity.Id;
 
             // Get all course content.
-            this.fullContentLink = new Uri(ConstantsDefault.ServicePrefix + string.Format(courseLink, this.Id, partnerCode, cultureCode, siteVersion));
+            this.fullContentLink = new Uri(constants.ServicePrefix + string.Format(courseLink, this.Id, constants.PartnerCode, constants.PartnerCode, constants.SiteVersion));
         }
 
         public void DownloadTo(string path)

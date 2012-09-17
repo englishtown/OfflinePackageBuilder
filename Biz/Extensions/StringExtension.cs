@@ -23,31 +23,5 @@ namespace Biz.Extensions
         {
             return s.Split('!')[0];
         }
-
-        // Get the folder size.
-        public static void GetDirSize(this string dir, ref long size)
-        {
-            try
-            {
-                string[] fileList = Directory.GetFileSystemEntries(dir);
-
-                foreach (string file in fileList)
-                {
-                    if (Directory.Exists(file))
-                    {
-                        GetDirSize(file, ref size);
-                    }
-                    else
-                    {
-                        FileInfo fiArr = new FileInfo(file);
-                        size += fiArr.Length / 1024;
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                Logger.Write(ex);
-            }
-        }
     }
 }

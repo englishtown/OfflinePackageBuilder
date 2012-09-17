@@ -5,7 +5,7 @@ using System.Text;
 using Microsoft.Practices.EnterpriseLibrary.Logging;
 using System.IO;
 
-namespace Biz
+namespace Biz.Services
 {
     public class MediaResourceService : IContentServcie
     {
@@ -16,12 +16,15 @@ namespace Biz
 
         public LogEntry Logger { get; set; }
 
-        public IDownloadService DownloadManager { get; set; }
+        private readonly IDownloadService downloadManager;
+        private readonly IConstants constants;
 
-        public MediaResourceService(string url, IDownloadService dm)
+        public MediaResourceService(string url, IDownloadService dm, IConstants constants)
         {
-            this.Url = new Uri(ConstantsDefault.ResourcePrefix + url);
-            this.DownloadManager = dm;
+            this.downloadManager = dm;
+            this.constants = constants;
+
+            this.Url = new Uri(constants.ResourcePrefix + url);
         }
 
         // Check is the media file exist on disk.
@@ -36,7 +39,7 @@ namespace Biz
             if (FileExist(path))
                 return;
 
-            this.DownloadManager.MediaDownload(this.Url, path);
+            this.downloadManager.MediaDownload(this.Url, path);
         }
     }
 }

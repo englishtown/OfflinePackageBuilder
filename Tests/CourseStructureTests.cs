@@ -9,6 +9,7 @@ using Moq;
 using System.IO;
 using Microsoft.Practices.EnterpriseLibrary.Logging;
 using Biz.Managers;
+using Biz.Services;
 
 namespace Tests
 {
@@ -27,7 +28,14 @@ namespace Tests
                 content = reader.ReadToEnd(); 
             }
 
-            IDownloadService a = new DownloadService();
+
+            DefaultConstants dc = new DefaultConstants();
+            dc.CultureCode = "en";
+            dc.SiteVersion = "development";
+            dc.PartnerCode = "none";
+            dc.LocalContentPath = "";
+
+            IDownloadService ds = new DownloadService();
 
             var mock = new Mock<IDownloadService>();
             mock.Setup(foo => foo.DownloadFromPath(It.IsAny<Uri>())).Returns(content);
@@ -36,9 +44,21 @@ namespace Tests
 
             //dm.Setup(f => f.DownloadFromPath(It.IsAny<Uri>())).Returns(list.ToString());
 
-            ICourseStructureManager cs = new CourseStructureManager(mock.Object, 201, "development", "en", "none");
+            ICourseStructureManager css = new CourseStructureManager(ds, 201, dc);
+            Course course = css.BuildCourseStructure();
 
-            Assert.IsNotNull(cs.Course);
+            IContentDownloadManager cdm = new LevelContentDownloadManager(ds, course, dc);
+            cdm.Download();
+            cdm.Download();
+            cdm.Download();
+
+            //IResourcePackageManager crpm = new ContentResourcePackageManager();
+            //crpm.Package();
+
+            //IResourcePackageManager mrpm = new MediaResourcePackageManager();
+            //mrpm.Package();
+
+            Assert.IsNotNull(css.Course);
         }
     }
 }

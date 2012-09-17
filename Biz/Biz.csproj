@@ -69,13 +69,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ConstantsDefault.cs" />
+    <Compile Include="DefaultConstants.cs" />
     <Compile Include="Extensions\DirectoryExtension.cs" />
-    <Compile Include="Managers\ContentDownloadManager.cs" />
+    <Compile Include="IConstants.cs" />
+    <Compile Include="Managers\ActivityContentDownloadManager.cs" />
     <Compile Include="Managers\ContentResourcePackageManager.cs" />
     <Compile Include="Managers\IContentDownloadManager.cs" />
     <Compile Include="Managers\IResourcePackageManager.cs" />
+    <Compile Include="Managers\LevelContentDownloadManager.cs" />
     <Compile Include="Managers\MediaResourcePackageManager.cs" />
+    <Compile Include="Managers\UnitContentDownloadManager.cs" />
     <Compile Include="Models\LevelType.cs" />
     <Compile Include="Services\CourseContentService.cs" />
     <Compile Include="Services\DownloadService.cs" />

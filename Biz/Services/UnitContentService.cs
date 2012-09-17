@@ -14,12 +14,15 @@ namespace Biz
         public int Id { get; set; }
         public string Content { get; set; }
 
-        public UnitContentService(int id, string siteVersion, string cultureCode, string partnerCode)
+        private readonly IConstants constants;
+
+        public UnitContentService(int id, IConstants constants)
         {
             this.Id = id;
+            this.constants = constants;
 
             // Get all course content.
-            this.fullContentLink = new Uri(ConstantsDefault.ServicePrefix + string.Format(unitLink, this.Id, siteVersion, cultureCode, partnerCode));
+            this.fullContentLink = new Uri(constants.ServicePrefix + string.Format(unitLink, this.Id, this.constants.SiteVersion, this.constants.CultureCode, this.constants.CultureCode));
         }
 
         public void DownloadTo(string path)

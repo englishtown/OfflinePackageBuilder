@@ -3,25 +3,35 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Biz.Models;
+using Biz.Extensions;
+using Biz.Services;
 
 namespace Biz.Managers
 {
     public class MediaResourcePackageManager : IResourcePackageManager
     {
-        public void Package()
-        { }
+        private readonly IBaseModule module;
+        private readonly IConstants constants;
+        private readonly IPackageService packageService;
 
-        public void Package(IBaseModule m)
+        public MediaResourcePackageManager(IBaseModule module, IConstants constants)
         {
-            Level l = m as Level;
-            //var levelName = "level_" + l.Id + "_" + this.CultureCode;
+            this.module = module;
+            this.constants = constants;
+        }
 
-            //var folderPath = ConstantsDefault.LocalContentPath + "level_" + l.Id + @"\" + this.CultureCode + @"\";
-            //var packagePath = ConstantsDefault.LocalContentPath + levelName + ".zip";
-            //long a = 0;
-            //folderPath.GetDirSize(ref a);
+        public void Package()
+        {
+            Level l = module as Level;
+            var levelName = "level_" + l.Id + "_" + this.constants.CultureCode;
 
-            //l.contentSize = a;
+            var folderPath = this.constants.LocalContentPath + "level_" + l.Id + @"\" + this.constants.CultureCode + @"\";
+            var packagePath = this.constants.LocalContentPath + levelName + ".zip";
+
+            long a = 0;
+            folderPath.GetDirSize(ref a);
+
+            l.contentSize = a;
             //ps.Package(folderPath, packagePath);
         }
     }

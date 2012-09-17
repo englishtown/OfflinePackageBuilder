@@ -8,10 +8,6 @@ namespace Biz.Managers
 {
     public interface IContentDownloadManager
     {
-        void DownloadLevelContent();
-
-        void DownloadUnitContent();
-
-        void DownloadActivityContent(LevelType ltype);
+        void Download();
     }
 }

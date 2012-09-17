@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Microsoft.Practices.EnterpriseLibrary.Logging;
-using System.IO;
-using Biz;
+﻿using Biz;
 using Biz.Models;
 using Biz.Managers;
+using Biz.Services;
 
 namespace Console
 {
@@ -16,17 +11,44 @@ namespace Console
         {
             IDownloadService ds = new DownloadService();
 
-            ICourseStructureManager cs = new CourseStructureManager(ds, 201, "development", "en", "none");
+            DefaultConstants dc = new DefaultConstants();
+            dc.CultureCode = "en";
+            dc.SiteVersion = "development";
+            dc.PartnerCode = "none";
+            dc.LocalContentPath = @"d:\offline\content\";
+            dc.LocalMediaPath = @"d:\offline\media\";
+            dc.ServicePrefix = "http://mobiledev.englishtown.com";
+            dc.ResourcePrefix = "http://local.englishtown.com";
+
+            ICourseStructureManager cs = new CourseStructureManager(ds, 201, dc);
             Course course = cs.BuildCourseStructure();
 
-            IContentDownloadManager cdm = new ContentDownloadManager(ds, course, "development", "en", "none");
-            cdm.DownloadActivityContent(LevelType.Level);
+            // Get all Activities under the level.
+            foreach (Level level in course.Levels)
+            {
+                foreach (Unit unit in level.Units)
+                {
+                    foreach (Lesson lesson in unit.Lessons)
+                    {
+                        foreach (Step step in lesson.Steps)
+                        {
+                            foreach (Activity activity in step.Activities)
+                            {
+                                IContentDownloadManager activityContent = new ActivityContentDownloadManager(ds, activity, dc);
+                            }
+                        }
+                    }
 
-            IResourcePackageManager crpm = new ContentResourcePackageManager();
-            crpm.Package();
+                    // Get Unit content structure
+                    IContentDownloadManager unitContent = new UnitContentDownloadManager(ds, unit, dc);
+                    unitContent.Download();
+                }
 
-            IResourcePackageManager mrpm = new MediaResourcePackageManager();
-            mrpm.Package();
+                // Get level content structure
+                IContentDownloadManager levelContent = new UnitContentDownloadManager(ds, level, dc);
+                levelContent.Download();
+            }
+
         }
     }
 }

@@ -9,6 +9,7 @@ using Biz.Models;
 
 using Biz.Extensions;
 using Microsoft.Practices.EnterpriseLibrary.Logging;
+using Biz.Services;
 
 namespace Biz.Managers
 {
@@ -17,31 +18,28 @@ namespace Biz.Managers
         private const string courseLink = "/services/school/query?q=course!{0}.*&c=siteversion={1}|cultureCode={2}|partnerCode={3}";
 
         private readonly IDownloadService downloadService;
-        private readonly PackageService ps;
+        private readonly IConstants constants;
 
         // Course ID
         public int Id { get; set; }
         public Course Course { get; set; }
-        public string SiteVersion { get; set; }
-        public string CultureCode { get; set; }
-        public string PartnerCode { get; set; }
 
-        public CourseStructureManager(IDownloadService ds, int courseId, string siteVersion, string cultureCode, string partnerCode)
+        public CourseStructureManager(IDownloadService ds, int courseId, IConstants constants)
         {
             this.downloadService = ds;
-            this.ps = new PackageService();
+            this.constants = constants;
 
             this.Id = courseId;
-            this.SiteVersion = siteVersion;
-            this.CultureCode = cultureCode;
-            this.PartnerCode = partnerCode;
         }
 
         // Build Course structure in memory.
         public Course BuildCourseStructure()
         {
-            var content = DownloadCourseStructure();
-            BuildCourseStructure(content);
+            var courseStructureContent = DownloadCourseStructure();
+
+            var courseArray = BuildCourseArray(courseStructureContent);
+
+            this.Course = new Course(this.Id, courseArray);
 
             return this.Course;
         }
@@ -50,16 +48,8 @@ namespace Biz.Managers
         private string DownloadCourseStructure()
         {
             // Get all course content.
-            var fullContentLink = new Uri(ConstantsDefault.ServicePrefix + string.Format(courseLink, this.Id, this.SiteVersion, this.CultureCode, this.PartnerCode));
-
+            var fullContentLink = new Uri(this.constants.ServicePrefix + string.Format(courseLink, this.Id, this.constants.SiteVersion, this.constants.CultureCode, this.constants.PartnerCode));
             return this.downloadService.DownloadFromPath(fullContentLink);
-        }
-
-        // Build Course structure in memory.
-        private void BuildCourseStructure(string courseStructureContent)
-        {
-            var b = BuildCourseArray(courseStructureContent);
-            this.Course = BuildCourse(this.Id, b);
         }
 
         // Splite the all course to different list.
@@ -111,12 +101,6 @@ namespace Biz.Managers
             }
 
             return csArray;
-        }
-
-        // Generate the content to a tree.
-        private Course BuildCourse(int courseId, Dictionary<string, List<JToken>> csArray)
-        {
-            return new Course(courseId, csArray);
         }
     }
 }

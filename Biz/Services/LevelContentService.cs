@@ -5,7 +5,7 @@ using System.Text;
 using System.Net;
 using Microsoft.Practices.EnterpriseLibrary.Logging;
 
-namespace Biz
+namespace Biz.Services
 {
     public class LevelContentService : IContentServcie
     {
@@ -15,12 +15,12 @@ namespace Biz
         public int Id { get; set; }
         public string Content { get; set; }
 
-        public LevelContentService(int id, string siteVersion, string cultureCode, string partnerCode)
+        public LevelContentService(int id, IConstants constants)
         {
             this.Id = id;
 
             // Get all course content.
-            this.fullContentLink = new Uri(ConstantsDefault.ServicePrefix + string.Format(levelLink, this.Id, siteVersion, cultureCode, partnerCode));
+            this.fullContentLink = new Uri(constants.ServicePrefix + string.Format(levelLink, this.Id, constants.SiteVersion, constants.CultureCode, constants.PartnerCode));
         }
 
         public void DownloadTo(string path)

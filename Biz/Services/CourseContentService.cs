@@ -5,7 +5,7 @@ using System.Text;
 using Biz.Models;
 using Microsoft.Practices.EnterpriseLibrary.Logging;
 
-namespace Biz
+namespace Biz.Services
 {
     public class CourseContentService : IContentServcie
     {

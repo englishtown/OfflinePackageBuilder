@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Practices.EnterpriseLibrary.Logging;
 
-namespace Biz
+namespace Biz.Services
 {
     public interface IContentServcie
     {
