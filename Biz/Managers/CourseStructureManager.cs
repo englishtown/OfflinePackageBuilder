@@ -10,7 +10,6 @@ using Biz.Models;
 using Biz.Extensions;
 using Microsoft.Practices.EnterpriseLibrary.Logging;
 using Biz.Services;
-using Biz.Manager;
 
 namespace Biz.Managers
 {
@@ -18,14 +17,14 @@ namespace Biz.Managers
     {
         private const string courseLink = "/services/school/query?q=course!{0}.*&c=siteversion={1}|cultureCode={2}|partnerCode={3}";
 
-        private readonly IDownloadManager downloadService;
+        private readonly IDownloadService downloadService;
         private readonly IConstants constants;
 
         // Course ID
         public int Id { get; set; }
         public Course Course { get; set; }
 
-        public CourseStructureManager(IDownloadManager ds, int courseId, IConstants constants)
+        public CourseStructureManager(IDownloadService ds, int courseId, IConstants constants)
         {
             this.downloadService = ds;
             this.constants = constants;

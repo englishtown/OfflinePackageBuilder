@@ -9,14 +9,15 @@ namespace Biz.Services
 {
     public class CourseContentService : IContentServcie
     {
-        public int Id { get; set; }
+        public IBaseModule BaseModule { get; set; }
         public string Content { get; set; }
 
         public LogEntry Logger { get; set; }
 
-        public CourseContentService(Course course)
+        public CourseContentService(IBaseModule module)
         {
-            this.Content = course.ToString();
+            this.BaseModule = module as Course;
+            this.Content = BaseModule.ToString();
         }
 
         // This will generate tree structure of course.

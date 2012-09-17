@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using Biz.Models;
 using Biz.Services;
-using Biz.Manager;
 
 namespace Biz.Managers
 {
@@ -13,8 +12,7 @@ namespace Biz.Managers
         // private const string courseLink = "/services/school/query?q=course!{0}.*&c=siteversion={1}|cultureCode={2}|partnerCode={3}";
 
 
-        private readonly IDownloadManager downloadService;
-
+        private readonly IDownloadService downloadService;
         private readonly IConstants constants;
 
         public Activity Activity { get; set; }
@@ -25,11 +23,11 @@ namespace Biz.Managers
         private readonly ActivityContentService acs;
 
         // 
-        public ActivityContentDownloadManager(IDownloadManager downloadService, IBaseModule activity, IConstants constants)
+        public ActivityContentDownloadManager(IDownloadService downloadService, IBaseModule activity, IContentServcie contentService, IConstants constants)
         {
             this.downloadService = downloadService;
             this.constants = constants;
-            this.acs = new ActivityContentService(this.downloadService, activity as Activity, constants);
+            this.acs = contentService as ActivityContentService;
 
             this.Activity = activity as Activity;
         }
@@ -59,33 +57,22 @@ namespace Biz.Managers
         // 
         private void DownloadActivityContentByLevel()
         {
-            acs.DownloadTo(this.constants.LocalContentPath + "level_" + this.baseModelId + @"\" + this.constants.CultureCode + @"\" + this.Activity.Id + ".json");
+            var path = this.constants.LocalContentPath + "level_" + this.baseModelId + @"\" + this.constants.CultureCode + @"\" + this.Activity.Id + ".json";
+            downloadService.SaveTo(acs.Content, path);
         }
 
         // 
         private void DownloadActivityContentByUnit()
         {
-            acs.DownloadTo(this.constants.LocalContentPath + "unit_" + this.baseModelId + @"\" + this.constants.CultureCode + @"\" + this.Activity.Id + ".json");
+            var path = this.constants.LocalContentPath + "unit_" + this.baseModelId + @"\" + this.constants.CultureCode + @"\" + this.Activity.Id + ".json";
+            downloadService.SaveTo(acs.Content, path);
         }
 
         // 
         private void DownloadActivityContentByLesson()
         {
-            acs.DownloadTo(this.constants.LocalContentPath + "lesson_" + this.baseModelId + @"\" + this.constants.CultureCode + @"\" + this.Activity.Id + ".json");
-
-            //        // Download the meida file.
-            //        foreach (var mediaPath in a.MediaResources)
-            //        {
-            //            IDownloadService dm = new DownloadService();
-            //            IContentServcie mediaService = new MediaResourceService(mediaPath, dm);
-            //            var path = ConstantsDefault.LocalMediaPath + "lesson_" + lessonId + @"\" + mediaPath;
-            //            mediaService.DownloadTo(path);
-            //        }
-            //    }
-            //}
-
-            ////Package Media by lesson
-            //// this.PackageMeidaFile("lesson_" + lesson.Id);
+            var path = this.constants.LocalContentPath + "lesson_" + this.baseModelId + @"\" + this.constants.CultureCode + @"\" + this.Activity.Id + ".json";
+            downloadService.SaveTo(acs.Content, path);
         }
     }
 }

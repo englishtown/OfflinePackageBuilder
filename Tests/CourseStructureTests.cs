@@ -10,7 +10,6 @@ using System.IO;
 using Microsoft.Practices.EnterpriseLibrary.Logging;
 using Biz.Managers;
 using Biz.Services;
-using Biz.Manager;
 
 namespace Tests
 {
@@ -29,35 +28,57 @@ namespace Tests
                 content = reader.ReadToEnd(); 
             }
 
-
             DefaultConstants dc = new DefaultConstants();
             dc.CultureCode = "en";
             dc.SiteVersion = "development";
             dc.PartnerCode = "none";
-            dc.LocalContentPath = "";
+            dc.LocalContentPath = @"d:\offline\content\";
+            dc.LocalMediaPath = @"d:\offline\media\";
+            dc.ServicePrefix = "http://mobiledev.englishtown.com";
+            dc.ResourcePrefix = "http://local.englishtown.com";
 
-            var mock = new Mock<IDownloadManager>();
+            var mock = new Mock<IDownloadService>();
             mock.Setup(foo => foo.DownloadFromPath(It.IsAny<Uri>())).Returns(content);
 
-            //dm.Expect(ctx => ctx.DownloadFromPath(It.IsAny<Uri>())).Returns(list.ToString());
+            ICourseStructureManager cs = new CourseStructureManager(mock.Object, 201, dc);
+            Course course = cs.BuildCourseStructure();
 
-            //dm.Setup(f => f.DownloadFromPath(It.IsAny<Uri>())).Returns(list.ToString());
+            // Get all Activities under the level.
+            foreach (Level level in course.Levels)
+            {
+                foreach (Unit unit in level.Units)
+                {
+                    foreach (Lesson lesson in unit.Lessons)
+                    {
+                        foreach (Step step in lesson.Steps)
+                        {
+                            foreach (Activity activity in step.Activities)
+                            {
+                                IContentServcie activityContentService = new ActivityContentService(mock.Object, activity, dc);
 
-            ICourseStructureManager css = new CourseStructureManager(mock.Object, 201, dc);
-            Course course = css.BuildCourseStructure();
+                                IContentDownloadManager activityContent = new ActivityContentDownloadManager(mock.Object, activity, activityContentService, dc);
+                                activityContent.Download();
+                            }
+                        }
 
-            IContentDownloadManager cdm = new LevelContentDownloadManager(mock.Object, course, dc);
-            cdm.Download();
-            cdm.Download();
-            cdm.Download();
+                        IResourcePackageManager mpm = new MediaResourcePackageManager(lesson, dc);
+                        mpm.Package();
+                    }
 
-            //IResourcePackageManager crpm = new ContentResourcePackageManager();
-            //crpm.Package();
+                    // Get Unit content structure
+                    IContentDownloadManager unitContent = new UnitContentDownloadManager(mock.Object, unit, dc);
+                    unitContent.Download();
+                }
 
-            //IResourcePackageManager mrpm = new MediaResourcePackageManager();
-            //mrpm.Package();
+                // Get level content structure
+                IContentDownloadManager levelContent = new UnitContentDownloadManager(mock.Object, level, dc);
+                levelContent.Download();
 
-            Assert.IsNotNull(css.Course);
+                IResourcePackageManager cpm = new ContentResourcePackageManager(level, dc);
+                cpm.Package();
+            }
+
+            Assert.IsNotNull(cs.Course);
         }
     }
 }

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Practices.EnterpriseLibrary.Logging;
 using System.IO;
-using Biz.Manager;
+using Biz.Models;
 
 namespace Biz.Services
 {
@@ -12,15 +12,15 @@ namespace Biz.Services
     {
         public Uri Url { get; set; }
 
-        public int Id { get; set; }
+        public IBaseModule BaseModule { get; set; }
         public string Content { get; set; }
 
         public LogEntry Logger { get; set; }
 
-        private readonly IDownloadManager downloadManager;
+        private readonly IDownloadService downloadManager;
         private readonly IConstants constants;
 
-        public MediaResourceService(string url, IDownloadManager downloadManager, IConstants constants)
+        public MediaResourceService(string url, IDownloadService downloadManager, IConstants constants)
         {
             this.downloadManager = downloadManager;
             this.constants = constants;

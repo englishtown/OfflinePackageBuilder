@@ -2,7 +2,6 @@
 using Biz.Models;
 using Biz.Managers;
 using Biz.Services;
-using Biz.Manager;
 
 namespace Console
 {
@@ -10,7 +9,7 @@ namespace Console
     {
         static void Main(string[] args)
         {
-            IDownloadManager ds = new DownloadManager();
+            IDownloadService ds = new DownloadService();
             IResourcePackageManager rpm;
 
             DefaultConstants dc = new DefaultConstants();
@@ -36,7 +35,12 @@ namespace Console
                         {
                             foreach (Activity activity in step.Activities)
                             {
-                                IContentDownloadManager activityContent = new ActivityContentDownloadManager(ds, activity, dc);
+                                IContentServcie activityContentService = new ActivityContentService(ds, activity, dc);
+
+                                IContentDownloadManager activityContent = new ActivityContentDownloadManager(ds, activity, activityContentService, dc);
+                                activityContent.Download();
+
+
                             }
                         }
 

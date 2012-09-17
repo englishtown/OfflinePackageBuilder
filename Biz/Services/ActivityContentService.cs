@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using Biz.Models;
-using Biz.Manager;
 
 namespace Biz.Services
 {
@@ -11,37 +10,31 @@ namespace Biz.Services
         private const string courseLink = "/services/school/courseware/GetActivityXml.ashx?actvityId={0}&partnerCode={1}&cultureCode={2}&siteVersion={3}&showBlurbs=0&consistentCacheSvr=true&jsoncallback=_jsonp_";
         private readonly Uri fullContentLink;
 
-        private readonly IDownloadManager downloadManager;
+        private readonly IDownloadService downloadService;
 
-        public int Id { get; set; }
-        public Activity Activity { get; set; }
+        public IBaseModule BaseModule { get; set; }
         public string Content { get; set; }
 
-        public ActivityContentService(IDownloadManager downloadManager, Activity activity, IConstants constants)
+        public ActivityContentService(IDownloadService downloadService, Activity activity, IConstants constants)
         {
             // TODO:: How to test?
-            this.downloadManager = downloadManager;
+            this.downloadService = downloadService;
 
-            this.Activity = activity;
-            this.Id = activity.Id;
+            this.BaseModule = activity as Activity;
 
             // Get all course content.
-            this.fullContentLink = new Uri(constants.ServicePrefix + string.Format(courseLink, this.Id, constants.PartnerCode, constants.PartnerCode, constants.SiteVersion));
-        }
+            this.fullContentLink = new Uri(constants.ServicePrefix + string.Format(courseLink, this.BaseModule.Id, constants.PartnerCode, constants.PartnerCode, constants.SiteVersion));
 
-        public void DownloadTo(string path)
-        {
-            this.Content = downloadManager.DownloadFromPath(this.fullContentLink);
+            // Download activity content.
+            this.Content = downloadService.DownloadFromPath(this.fullContentLink);
 
             // Replace swf to jpg, flv to mp4
             ReplaceUrlFileFormat();
 
-            this.Activity.MediaResources = GetMediaResources(Content);
+            // Parse the content to get the media resource.
+            (this.BaseModule as Activity).MediaResources = GetMediaResources(Content);
 
             ReplaceUrlToLocalResourcePath();
-
-            // Save localed path to disk.
-            downloadManager.SaveTo(this.Content, path);
         }
 
         /// Get the list of media resource path in the activity.</returns>
@@ -77,6 +70,7 @@ namespace Biz.Services
             );
         }
 
+        // Replace some swf to mp4.
         protected void ChangeContent(string pattern, MatchEvaluator evaluator)
         {
             Regex grx = new Regex(pattern, RegexOptions.IgnoreCase);
