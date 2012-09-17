@@ -12,6 +12,6 @@ namespace Biz
         public const string LocalMediaPath = @"d:\offline\media\";
 
         public const string ServicePrefix = "http://mobiledev.englishtown.com";
-        public const string ResourcePrefix = "http://mobiledev.englishtown.com";
+        public const string ResourcePrefix = "http://local.englishtown.com";
     }
 }

@@ -10,44 +10,56 @@ using Biz.Models;
 using Biz.Extensions;
 using Microsoft.Practices.EnterpriseLibrary.Logging;
 
-namespace Biz
+namespace Biz.Managers
 {
     public class CourseStructureManager : ICourseStructureManager
     {
         private const string courseLink = "/services/school/query?q=course!{0}.*&c=siteversion={1}|cultureCode={2}|partnerCode={3}";
 
-        private readonly IDownloadManager dm;
-        private readonly PackageManager ps;
+        private readonly IDownloadService downloadService;
+        private readonly PackageService ps;
 
+        // Course ID
         public int Id { get; set; }
         public Course Course { get; set; }
         public string SiteVersion { get; set; }
         public string CultureCode { get; set; }
         public string PartnerCode { get; set; }
 
-        public CourseStructureManager(IDownloadManager dm, int courseId, string siteVersion, string cultureCode, string partnerCode)
+        public CourseStructureManager(IDownloadService ds, int courseId, string siteVersion, string cultureCode, string partnerCode)
         {
-            this.dm = dm;
-            this.ps = new PackageManager();
+            this.downloadService = ds;
+            this.ps = new PackageService();
 
+            this.Id = courseId;
             this.SiteVersion = siteVersion;
             this.CultureCode = cultureCode;
             this.PartnerCode = partnerCode;
+        }
 
-            var a = DownloadCourseStructure(courseId);
-            var b = BuildCourseArray(a);
-            this.Course = BuildCourse(courseId, b);
+        // Build Course structure in memory.
+        public Course BuildCourseStructure()
+        {
+            var content = DownloadCourseStructure();
+            BuildCourseStructure(content);
 
-            DownloadActivityContentByLevel();
+            return this.Course;
         }
 
         // Download the course from new api, maybe need download by level.
-        public string DownloadCourseStructure(int courseId)
+        private string DownloadCourseStructure()
         {
             // Get all course content.
-            var fullContentLink = new Uri(ConstantsDefault.ServicePrefix + string.Format(courseLink, courseId, this.SiteVersion, this.CultureCode, this.PartnerCode));
+            var fullContentLink = new Uri(ConstantsDefault.ServicePrefix + string.Format(courseLink, this.Id, this.SiteVersion, this.CultureCode, this.PartnerCode));
 
-            return dm.DownloadFromPath(fullContentLink);
+            return this.downloadService.DownloadFromPath(fullContentLink);
+        }
+
+        // Build Course structure in memory.
+        private void BuildCourseStructure(string courseStructureContent)
+        {
+            var b = BuildCourseArray(courseStructureContent);
+            this.Course = BuildCourse(this.Id, b);
         }
 
         // Splite the all course to different list.
@@ -106,81 +118,5 @@ namespace Biz
         {
             return new Course(courseId, csArray);
         }
-
-        public void DownloadActivityContentByLevel()
-        {
-            // Get all Activities under the level.
-            foreach (Level l in this.Course.Levels)
-            {
-                foreach (Unit u in l.Units)
-                {
-                    DownloadActivityContentByUnit(u);
-                }
-
-                // package the content by level.
-                this.PackageContentFile(l);
-            }
-
-
-        }
-
-        private void DownloadActivityContentByUnit(Unit unit)
-        {
-            // Get all activities under the unit.
-            foreach (Lesson l in unit.Lessons)
-            {
-                DownloadActivityContentByLesson(l);
-            }
-        }
-
-        private void DownloadActivityContentByLesson(Lesson lesson)
-        {
-            foreach (Step s in lesson.Steps)
-            {
-                foreach (Activity a in s.Activities)
-                {
-                    int levelId = a.ParentModule.ParentModule.ParentModule.ParentModule.Id;
-                    int lessonId = a.ParentModule.ParentModule.Id;
-
-                    ActivityContentService acs = new ActivityContentService(this.dm, a, this.SiteVersion, this.CultureCode, this.PartnerCode);
-                    acs.DownloadTo(ConstantsDefault.LocalContentPath + "level_" + levelId + @"\" + this.CultureCode + @"\" + a.Id + ".json");
-
-                    // Download the meida file.
-                    foreach (var mediaPath in a.MediaResources)
-                    {
-                        IDownloadManager d = new DownloadManager();
-                        IContentServcie mediaService = new MediaResourceService(mediaPath, d);
-                        var path = ConstantsDefault.LocalMediaPath + "lesson_" + lessonId + @"\" + mediaPath;
-                        mediaService.DownloadTo(path);
-                    }
-                }
-            }
-
-            //Package Media by lesson
-            this.PackageMeidaFile("lesson_" + lesson.Id);
-        }
-
-        // Package the name
-        private void PackageMeidaFile(string levelName)
-        {
-            var folderPath = ConstantsDefault.LocalMediaPath + levelName;
-            ps.Package(folderPath, ConstantsDefault.LocalMediaPath + levelName + ".zip");
-        }
-
-        // Package the content
-        private void PackageContentFile(IBaseModule m)
-        {
-            Level l = m as Level;
-            var levelName = "level_" + l.Id + "_" + this.CultureCode;
-
-            var folderPath = ConstantsDefault.LocalContentPath + "level_" + l.Id + @"\" + this.CultureCode + @"\";
-            var packagePath = ConstantsDefault.LocalContentPath + levelName + ".zip";
-            long a = 0;
-            folderPath.GetDirSize(ref a);
-
-            l.contentSize = a;
-            ps.Package(folderPath, packagePath);
-        }
-
     }
 }

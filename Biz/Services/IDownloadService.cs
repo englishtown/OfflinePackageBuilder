@@ -6,11 +6,13 @@ using Microsoft.Practices.EnterpriseLibrary.Logging;
 
 namespace Biz
 {
-    public interface IDownloadManager
+    public interface IDownloadService
     {
         string DownloadFromPath(Uri url);
 
         string DownloadFromPath(Uri url, string path);
+
+        void MediaDownload(Uri url, string path);
 
         void SaveTo(string content, string path);
     }

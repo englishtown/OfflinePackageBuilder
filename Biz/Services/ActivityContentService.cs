@@ -14,16 +14,16 @@ namespace Biz.Models
         private const string courseLink = "/services/school/courseware/GetActivityXml.ashx?actvityId={0}&partnerCode={1}&cultureCode={2}&siteVersion={3}&showBlurbs=0&consistentCacheSvr=true&jsoncallback=_jsonp_";
         private readonly Uri fullContentLink;
 
-        private readonly IDownloadManager dm;
+        private readonly IDownloadService dm;
 
         public int Id { get; set; }
         public Activity Activity { get; set; }
         public string Content { get; set; }
 
-        public ActivityContentService(IDownloadManager dm, Activity activity, string siteVersion, string cultureCode, string partnerCode)
+        public ActivityContentService(IDownloadService dm, Activity activity, string siteVersion, string cultureCode, string partnerCode)
         {
             // TODO:: How to test?
-            this.dm = new DownloadManager();
+            this.dm = new DownloadService();
 
             this.Activity = activity;
             this.Id = activity.Id;
@@ -35,9 +35,12 @@ namespace Biz.Models
         public void DownloadTo(string path)
         {
             this.Content = dm.DownloadFromPath(this.fullContentLink);
+
+            // Replace swf to jpg, flv to mp4
+            ReplaceUrlFileFormat();
+
             this.Activity.MediaResources = GetMediaResources(Content);
 
-            ReplaceUrlFileFormat();
             ReplaceUrlToLocalResourcePath();
 
             // Save localed path to disk.
@@ -49,7 +52,7 @@ namespace Biz.Models
         {
             IList<string> list = new List<string>();
 
-            Regex r = new Regex(@"(?<=http://\w+.englishtown.com)/Juno/[\s\S]*?(.mp3|.jpg|.png|.gif|.bmp|.mp4|.f4v|.m3u8|.swf)", RegexOptions.IgnoreCase);
+            Regex r = new Regex(@"(?<=http://\w+.englishtown.com)/Juno/[\s\S]*?(\.mp3|\.jpg|\.png|\.gif|\.bmp|\.mp4|\.f4v|\.m3u8|\.swf)", RegexOptions.IgnoreCase);
             MatchCollection m = r.Matches(activityContent);
 
             for (int j = 0; j < m.Count; j++)

@@ -9,7 +9,7 @@ using Microsoft.Practices.EnterpriseLibrary.Logging;
 
 namespace Biz
 {
-    public class PackageManager
+    public class PackageService
     {
         // Zip a path to a zip file.
         public long Package(string folderPath, string packagePath)

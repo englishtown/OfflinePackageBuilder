@@ -8,6 +8,7 @@ using Biz.Models;
 using Moq;
 using System.IO;
 using Microsoft.Practices.EnterpriseLibrary.Logging;
+using Biz.Managers;
 
 namespace Tests
 {
@@ -26,9 +27,9 @@ namespace Tests
                 content = reader.ReadToEnd(); 
             }
 
-            IDownloadManager a = new DownloadManager();
+            IDownloadService a = new DownloadService();
 
-            var mock = new Mock<IDownloadManager>();
+            var mock = new Mock<IDownloadService>();
             mock.Setup(foo => foo.DownloadFromPath(It.IsAny<Uri>())).Returns(content);
 
             //dm.Expect(ctx => ctx.DownloadFromPath(It.IsAny<Uri>())).Returns(list.ToString());

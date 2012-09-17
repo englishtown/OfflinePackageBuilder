@@ -16,9 +16,9 @@ namespace Biz
 
         public LogEntry Logger { get; set; }
 
-        public IDownloadManager DownloadManager { get; set; }
+        public IDownloadService DownloadManager { get; set; }
 
-        public MediaResourceService(string url, IDownloadManager dm)
+        public MediaResourceService(string url, IDownloadService dm)
         {
             this.Url = new Uri(ConstantsDefault.ResourcePrefix + url);
             this.DownloadManager = dm;
@@ -36,7 +36,7 @@ namespace Biz
             if (FileExist(path))
                 return;
 
-            this.DownloadManager.DownloadFromPath(this.Url, path);
+            this.DownloadManager.MediaDownload(this.Url, path);
         }
     }
 }

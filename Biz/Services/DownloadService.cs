@@ -8,7 +8,7 @@ using Microsoft.Practices.EnterpriseLibrary.Logging;
 
 namespace Biz
 {
-    public class DownloadManager : IDownloadManager
+    public class DownloadService : IDownloadService
     {
         public string DownloadFromPath(Uri url)
         {
@@ -22,7 +22,7 @@ namespace Biz
             }
             catch (WebException ex)
             {
-                Logger.Write(url.ToString() + '\n' +  ex);
+                Logger.Write(url.ToString() + "\r\n" +  ex);
             }
 
             return courseContent;
@@ -33,6 +33,21 @@ namespace Biz
             var data = DownloadFromPath(url);
             SaveTo(data, path);
             return data;
+        }
+
+
+        public void MediaDownload(Uri url, string path)
+        {
+            WebClient c = new WebClient();
+
+            try
+            {
+                c.DownloadFile(url, path);
+            }
+            catch (WebException ex)
+            {
+                Logger.Write(url.ToString() + "\r\n" + ex);
+            }
         }
 
         public void SaveTo(string content, string path)

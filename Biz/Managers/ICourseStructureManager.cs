@@ -5,11 +5,12 @@ using System.Text;
 using Biz.Models;
 using Microsoft.Practices.EnterpriseLibrary.Logging;
 
-namespace Biz
+namespace Biz.Managers
 {
     public interface ICourseStructureManager
     {
         Course Course { get; set; }
-        string DownloadCourseStructure(int courseId);
+
+        Course BuildCourseStructure();
     }
 }
