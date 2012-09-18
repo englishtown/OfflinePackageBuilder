@@ -13,6 +13,7 @@ namespace Console
             IResourcePackageManager rpm;
 
             DefaultConstants dc = new DefaultConstants();
+            dc.CourseId = 201;
             dc.CultureCode = "en";
             dc.SiteVersion = "development";
             dc.PartnerCode = "none";
@@ -23,7 +24,9 @@ namespace Console
             dc.ContentGenerateBy = LevelType.Level;
             dc.MediaGenerateBy = LevelType.Lesson;
 
-            ICourseStructureManager cs = new CourseStructureManager(ds, 201, dc);
+            IContentResourceServcie courseContentResourceService = new CourseContentResourceService(ds, dc);
+
+            ICourseStructureManager cs = new CourseStructureManager(ds, courseContentResourceService, dc);
             Course course = cs.BuildCourseStructure();
 
             // Get all Activities under the level.
@@ -37,10 +40,13 @@ namespace Console
                         {
                             foreach (Activity activity in step.Activities)
                             {
-                                IResourceServcie activityContentService = new ActivityContentResourceService(ds, activity, dc);
+                                IContentResourceServcie activityContentService = new ActivityContentResourceService(ds, activity.Id, dc);
 
                                 IResourceDownloadManager activityContent = new ActivityContentResourceDownloadManager(ds, activity, activityContentService, dc);
                                 activityContent.Download();
+
+                                IResourceDownloadManager mediaResource = new MediaResourceDownloadManager(ds, activity, activityContentService, dc);
+                                mediaResource.Download();
                             }
                         }
 
@@ -49,20 +55,19 @@ namespace Console
                     }
 
                     // Get Unit content structure
-                    IResourceServcie ucs = new UnitContentResourceService(new DownloadService(), unit, dc);
+                    IContentResourceServcie ucs = new UnitContentResourceService(ds, unit.Id, dc);
                     IResourceDownloadManager unitContent = new UnitContentResourceDownloadManager(ds, unit, ucs, dc);
                     unitContent.Download();
                 }
 
                 // Get level content structure
-                IResourceServcie lcs = new LevelContentResourceService(new DownloadService(), level, dc);
-                IResourceDownloadManager levelContent = new UnitContentResourceDownloadManager(ds, level, lcs, dc);
+                IContentResourceServcie lcs = new LevelContentResourceService(ds, level.Id, dc);
+                IResourceDownloadManager levelContent = new LevelContentResourceDownloadManager(ds, level, lcs, dc);
                 levelContent.Download();
 
                 IResourcePackageManager cpm = new ContentResourcePackageManager(level, dc);
                 cpm.Package();
             }
-
         }
     }
 }

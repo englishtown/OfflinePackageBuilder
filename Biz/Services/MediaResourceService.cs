@@ -8,7 +8,7 @@ using Biz.Models;
 
 namespace Biz.Services
 {
-    public class MediaResourceService : IResourceServcie
+    public class MediaResourceService : IMediaResourceService
     {
         public Uri Url { get; set; }
 
@@ -22,25 +22,6 @@ namespace Biz.Services
 
         public MediaResourceService(string url, IDownloadService downloadManager, IConstants constants)
         {
-            this.downloadManager = downloadManager;
-            this.constants = constants;
-
-            this.Url = new Uri(constants.ResourcePrefix + url);
-        }
-
-        // Check is the media file exist on disk.
-        // 
-        public bool FileExist(string path)
-        {
-            return File.Exists(path);
-        }
-
-        public void DownloadTo(string path)
-        {
-            if (FileExist(path))
-                return;
-
-            this.downloadManager.MediaDownload(this.Url, path);
-        }
+          
     }
 }

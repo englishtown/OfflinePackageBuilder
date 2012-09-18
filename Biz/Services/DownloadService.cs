@@ -42,6 +42,7 @@ namespace Biz.Services
 
             try
             {
+                CreateFoler(path);
                 c.DownloadFile(url, path);
             }
             catch (WebException ex)
@@ -52,6 +53,21 @@ namespace Biz.Services
 
         public void SaveTo(string content, string path)
         {
+            try
+            {
+                // Save the content to some path use Async
+                //c.DownloadFile(url, path);
+                CreateFoler(path);
+                File.WriteAllText(path, content);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        private void CreateFoler(string path)
+        {
             if (Directory.Exists(Path.GetDirectoryName(path)))
             {
             }
@@ -60,16 +76,6 @@ namespace Biz.Services
                 Directory.CreateDirectory(Path.GetDirectoryName(path));
             }
 
-            try
-            {
-                // Save the content to some path use Async
-                //c.DownloadFile(url, path);
-                File.WriteAllText(path, content);
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
         }
     }
 }

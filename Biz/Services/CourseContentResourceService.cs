@@ -7,29 +7,31 @@ using Microsoft.Practices.EnterpriseLibrary.Logging;
 
 namespace Biz.Services
 {
-    public class CourseContentResourceService : IResourceServcie
+    public class CourseContentResourceService : IContentResourceServcie
     {
-        private const string CourseContentLink = "/services/school/courseware/GetActivityXml.ashx?actvityId={0}&cultureCode={1}&siteVersion={2}&partnerCode={3}&showBlurbs=0&consistentCacheSvr=true&jsoncallback=_jsonp_";
+        private const string courseLink = "/services/school/query?q=course!{0}.*&c=siteversion={1}|cultureCode={2}|partnerCode={3}";
 
-        public IBaseModule BaseModule { get; set; }
+        // not used in here.
+        public int ModuleId { get; set; }
+
         private readonly IDownloadService downloadService;
+        private readonly IConstants constants; 
 
         public string Content { get; set; }
 
-        private readonly Uri fullContentLink;
+        //private readonly Uri fullContentLink;
 
-        public CourseContentResourceService(IDownloadService downloadService, IBaseModule module, IConstants constants)
+        public CourseContentResourceService(IDownloadService downloadService, IConstants constants)
         {
+            this.ModuleId = constants.CourseId;
             this.downloadService = downloadService;
-
-            this.BaseModule = module;
-            this.Content = BaseModule.ToString();
+            this.constants = constants;
 
             // Get all course content.
-            this.fullContentLink = new Uri(constants.ServicePrefix + string.Format(CourseContentLink, this.BaseModule.Id, constants.SiteVersion, constants.CultureCode, constants.PartnerCode));
+            var fullContentLink = new Uri(this.constants.ServicePrefix + string.Format(courseLink, this.ModuleId, this.constants.SiteVersion, this.constants.CultureCode, this.constants.PartnerCode));
 
             // Download activity content.
-            this.Content = downloadService.DownloadFromPath(this.fullContentLink);
+            this.Content = downloadService.DownloadFromPath(fullContentLink);
         }
     }
 }

@@ -8,6 +8,8 @@ namespace Biz
 {
     public interface IConstants
     {
+        int CourseId { get; set; }
+
         string SiteVersion { get; set; }
         string CultureCode { get; set; }
         string PartnerCode { get; set; }

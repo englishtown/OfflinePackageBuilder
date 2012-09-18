@@ -30,11 +30,11 @@ namespace Biz.Managers
             Lesson lesson = module as Lesson;
             var lessonName = "lesson_" + lesson.Id;
 
-            var folderPath = this.constants.LocalContentPath + "lesson_" + lesson.Id + @"\";
+            var folderPath = this.constants.LocalMediaPath + "lesson_" + lesson.Id + @"\";
             
             // TODO:: Check the file changed
             // TODO:: Version support;
-            var packagePath = this.constants.LocalContentPath + lessonName + ".zip";
+            var packagePath = this.constants.LocalMediaPath + lessonName + ".zip";
 
             long meidaOriSize = 0;
             folderPath.GetDirSize(ref meidaOriSize);

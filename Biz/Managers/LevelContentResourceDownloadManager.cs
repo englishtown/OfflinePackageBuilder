@@ -10,14 +10,14 @@ namespace Biz.Managers
     public class LevelContentResourceDownloadManager : IResourceDownloadManager
     {
         private readonly IDownloadService downloadService;
-        private readonly IResourceServcie levelContentResourceService;
+        private readonly IContentResourceServcie levelContentResourceService;
 
         private readonly IConstants constants;
 
         public Level Level { get; set; }
 
         // 
-        public LevelContentResourceDownloadManager(IDownloadService downloadService, IBaseModule module, IResourceServcie resourceService, IConstants constants)
+        public LevelContentResourceDownloadManager(IDownloadService downloadService, IBaseModule module, IContentResourceServcie resourceService, IConstants constants)
         {
             this.downloadService = downloadService;
             this.levelContentResourceService = resourceService;

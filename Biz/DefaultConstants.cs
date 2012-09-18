@@ -8,10 +8,11 @@ namespace Biz
 {
     public class DefaultConstants : IConstants
     {
-
         public DefaultConstants()
         {
         }
+
+        public virtual int CourseId { get; set; }
 
         public virtual string SiteVersion { get; set; }
         public virtual string CultureCode { get; set; }

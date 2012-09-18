@@ -25,7 +25,7 @@ namespace Biz.Managers
             Level level = module as Level;
             var levelName = "level_" + level.Id + "_" + this.constants.CultureCode;
 
-            var folderPath = this.constants.LocalMediaPath + levelName;
+            var folderPath = this.constants.LocalContentPath + @"level_" + this.module.Id + @"\" + this.constants.CultureCode + @"\";
 
             // TODO:: Check the file changed
             // TODO:: Version support;

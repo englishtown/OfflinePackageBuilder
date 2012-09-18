@@ -71,6 +71,7 @@
   <ItemGroup>
     <Compile Include="DefaultConstants.cs" />
     <Compile Include="Extensions\DirectoryExtension.cs" />
+    <Compile Include="Helper\ActivityContentHelper.cs" />
     <Compile Include="Helper\PackageHelper.cs" />
     <Compile Include="IConstants.cs" />
     <Compile Include="Managers\ActivityContentResourceDownloadManager.cs" />
@@ -84,14 +85,14 @@
     <Compile Include="Managers\MediaResourcePackageManager.cs" />
     <Compile Include="Managers\UnitContentResourceDownloadManager.cs" />
     <Compile Include="Models\LevelType.cs" />
+    <Compile Include="Models\MediaResource.cs" />
     <Compile Include="Services\CourseContentResourceService.cs" />
     <Compile Include="Services\DownloadService.cs" />
     <Compile Include="Extensions\StringExtension.cs" />
-    <Compile Include="Services\IResourceServcie.cs" />
+    <Compile Include="Services\IContentResourceServcie.cs" />
     <Compile Include="Managers\ICourseStructureManager.cs" />
     <Compile Include="Services\IDownloaService.cs" />
     <Compile Include="Services\LevelContentResourceService.cs" />
-    <Compile Include="Services\MediaResourceService.cs" />
     <Compile Include="Models\Activity.cs" />
     <Compile Include="Managers\CourseStructureManager.cs" />
     <Compile Include="Services\ActivityContentResourceService.cs" />

@@ -11,7 +11,7 @@ namespace Biz.Managers
     {
         private readonly IDownloadService downloadService;
         private readonly IConstants constants;
-        private readonly IResourceServcie unitContentService;
+        private readonly IContentResourceServcie unitContentService;
 
         // Download by level, unit or lesson, use this id as folder name.
         public int baseModelId;
@@ -19,7 +19,7 @@ namespace Biz.Managers
         public Unit Unit { get; set; }
 
         // 
-        public UnitContentResourceDownloadManager(IDownloadService downloadService, IBaseModule unit, IResourceServcie unitContentService, IConstants constants)
+        public UnitContentResourceDownloadManager(IDownloadService downloadService, IBaseModule unit, IContentResourceServcie unitContentService, IConstants constants)
         {
             this.downloadService = downloadService;
             this.constants = constants;

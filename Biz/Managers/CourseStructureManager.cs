@@ -15,41 +15,31 @@ namespace Biz.Managers
 {
     public class CourseStructureManager : ICourseStructureManager
     {
-        private const string courseLink = "/services/school/query?q=course!{0}.*&c=siteversion={1}|cultureCode={2}|partnerCode={3}";
-
         private readonly IDownloadService downloadService;
         private readonly IConstants constants;
+        private readonly IContentResourceServcie courseContentResourceService;
 
         // Course ID
         public int Id { get; set; }
         public Course Course { get; set; }
 
-        public CourseStructureManager(IDownloadService ds, int courseId, IConstants constants)
+        public CourseStructureManager(IDownloadService ds, IContentResourceServcie resource, IConstants constants)
         {
             this.downloadService = ds;
             this.constants = constants;
-
-            this.Id = courseId;
+            this.courseContentResourceService = resource;
         }
 
         // Build Course structure in memory.
         public Course BuildCourseStructure()
         {
-            var courseStructureContent = DownloadCourseStructure();
+            var courseStructureContent = this.courseContentResourceService.Content;
 
             var courseArray = BuildCourseArray(courseStructureContent);
 
-            this.Course = new Course(this.Id, courseArray);
+            this.Course = new Course(this.constants.CourseId, courseArray);
 
             return this.Course;
-        }
-
-        // Download the course from new api, maybe need download by level.
-        private string DownloadCourseStructure()
-        {
-            // Get all course content.
-            var fullContentLink = new Uri(this.constants.ServicePrefix + string.Format(courseLink, this.Id, this.constants.SiteVersion, this.constants.CultureCode, this.constants.PartnerCode));
-            return this.downloadService.DownloadFromPath(fullContentLink);
         }
 
         // Splite the all course to different list.

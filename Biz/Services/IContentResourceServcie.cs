@@ -7,11 +7,10 @@ using Biz.Models;
 
 namespace Biz.Services
 {
-    public interface IResourceServcie
+    public interface IContentResourceServcie
     {
-        IBaseModule BaseModule { get; set; }
+        //IBaseModule BaseModule { get; set; }
+        int ModuleId { get; set; }
         string Content { get; set; }
-
-        //void DownloadTo(string path);
     }
 }
