@@ -20,6 +20,8 @@ namespace Console
             dc.LocalMediaPath = @"d:\offline\media\";
             dc.ServicePrefix = "http://mobiledev.englishtown.com";
             dc.ResourcePrefix = "http://local.englishtown.com";
+            dc.ContentGenerateBy = LevelType.Level;
+            dc.MediaGenerateBy = LevelType.Lesson;
 
             ICourseStructureManager cs = new CourseStructureManager(ds, 201, dc);
             Course course = cs.BuildCourseStructure();
@@ -35,9 +37,9 @@ namespace Console
                         {
                             foreach (Activity activity in step.Activities)
                             {
-                                IContentServcie activityContentService = new ActivityContentService(ds, activity, dc);
+                                IResourceServcie activityContentService = new ActivityContentResourceService(ds, activity, dc);
 
-                                IContentDownloadManager activityContent = new ActivityContentDownloadManager(ds, activity, activityContentService, dc);
+                                IResourceDownloadManager activityContent = new ActivityContentResourceDownloadManager(ds, activity, activityContentService, dc);
                                 activityContent.Download();
                             }
                         }
@@ -47,12 +49,14 @@ namespace Console
                     }
 
                     // Get Unit content structure
-                    IContentDownloadManager unitContent = new UnitContentDownloadManager(ds, unit, dc);
+                    IResourceServcie ucs = new UnitContentResourceService(new DownloadService(), unit, dc);
+                    IResourceDownloadManager unitContent = new UnitContentResourceDownloadManager(ds, unit, ucs, dc);
                     unitContent.Download();
                 }
 
                 // Get level content structure
-                IContentDownloadManager levelContent = new UnitContentDownloadManager(ds, level, dc);
+                IResourceServcie lcs = new LevelContentResourceService(new DownloadService(), level, dc);
+                IResourceDownloadManager levelContent = new UnitContentResourceDownloadManager(ds, level, lcs, dc);
                 levelContent.Download();
 
                 IResourcePackageManager cpm = new ContentResourcePackageManager(level, dc);

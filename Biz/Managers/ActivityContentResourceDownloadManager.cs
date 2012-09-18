@@ -7,27 +7,23 @@ using Biz.Services;
 
 namespace Biz.Managers
 {
-    public class ActivityContentDownloadManager : IContentDownloadManager
+    public class ActivityContentResourceDownloadManager : IResourceDownloadManager
     {
-        // private const string courseLink = "/services/school/query?q=course!{0}.*&c=siteversion={1}|cultureCode={2}|partnerCode={3}";
-
-
         private readonly IDownloadService downloadService;
         private readonly IConstants constants;
+        private readonly IResourceServcie activityContentResourceService;
 
         public Activity Activity { get; set; }
 
         // Download by level, unit or lesson, use this id as folder name.
         public int baseModelId;
 
-        private readonly ActivityContentService acs;
-
         // 
-        public ActivityContentDownloadManager(IDownloadService downloadService, IBaseModule activity, IContentServcie contentService, IConstants constants)
+        public ActivityContentResourceDownloadManager(IDownloadService downloadService, IBaseModule activity, IResourceServcie resourceService, IConstants constants)
         {
             this.downloadService = downloadService;
             this.constants = constants;
-            this.acs = contentService as ActivityContentService;
+            this.activityContentResourceService = resourceService;
 
             this.Activity = activity as Activity;
         }
@@ -36,7 +32,7 @@ namespace Biz.Managers
         public virtual void Download()
         {
             // TODO
-            switch (LevelType.Level)
+            switch (this.constants.ContentGenerateBy)
             {
                 case LevelType.Level:
                     // activity, step, lesson, unit, level.
@@ -57,22 +53,22 @@ namespace Biz.Managers
         // 
         private void DownloadActivityContentByLevel()
         {
-            var path = this.constants.LocalContentPath + "level_" + this.baseModelId + @"\" + this.constants.CultureCode + @"\" + this.Activity.Id + ".json";
-            downloadService.SaveTo(acs.Content, path);
+            var path = this.constants.LocalContentPath + "level_" + this.baseModelId + @"\" + this.constants.CultureCode + @"\Activity_" + this.Activity.Id + ".json";
+            downloadService.SaveTo(activityContentResourceService.Content, path);
         }
 
         // 
         private void DownloadActivityContentByUnit()
         {
-            var path = this.constants.LocalContentPath + "unit_" + this.baseModelId + @"\" + this.constants.CultureCode + @"\" + this.Activity.Id + ".json";
-            downloadService.SaveTo(acs.Content, path);
+            var path = this.constants.LocalContentPath + "unit_" + this.baseModelId + @"\" + this.constants.CultureCode + @"\Activity_" + this.Activity.Id + ".json";
+            downloadService.SaveTo(activityContentResourceService.Content, path);
         }
 
         // 
         private void DownloadActivityContentByLesson()
         {
-            var path = this.constants.LocalContentPath + "lesson_" + this.baseModelId + @"\" + this.constants.CultureCode + @"\" + this.Activity.Id + ".json";
-            downloadService.SaveTo(acs.Content, path);
+            var path = this.constants.LocalContentPath + "lesson_" + this.baseModelId + @"\" + this.constants.CultureCode + @"\Activity_" + this.Activity.Id + ".json";
+            downloadService.SaveTo(activityContentResourceService.Content, path);
         }
     }
 }

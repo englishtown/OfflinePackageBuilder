@@ -8,29 +8,27 @@ using Biz.Models;
 
 namespace Biz.Services
 {
-    public class LevelContentService : IContentServcie
+    public class LevelContentResourceService : IResourceServcie
     {
         private const string levelLink = "/services/school/courseware/GetActivityXml.ashx?actvityId={0}&cultureCode={1}&siteVersion={2}&partnerCode={3}&showBlurbs=0&consistentCacheSvr=true&jsoncallback=_jsonp_";
+        
         private readonly Uri fullContentLink;
+        private readonly IDownloadService downloadService;
 
         public IBaseModule BaseModule { get; set; }
         public string Content { get; set; }
 
-        public LevelContentService(IBaseModule module, IConstants constants)
+        public LevelContentResourceService(IDownloadService downloadService, IBaseModule module, IConstants constants)
         {
+            this.downloadService = downloadService;
+
             this.BaseModule = module as Level;
 
             // Get all course content.
             this.fullContentLink = new Uri(constants.ServicePrefix + string.Format(levelLink, this.BaseModule.Id, constants.SiteVersion, constants.CultureCode, constants.PartnerCode));
+
+            // Download activity content.
+            this.Content = downloadService.DownloadFromPath(this.fullContentLink);
         }
-
-        //public void DownloadTo(string path)
-        //{
-        //    WebClient c = new WebClient();
-        //    c.Headers.Add("Content-Type", "application/json; charset=utf-8");
-
-        //    // Save the content to some path use Async
-        //    c.DownloadFileAsync(this.fullContentLink, path);
-        //}
     }
 }

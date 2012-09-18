@@ -7,7 +7,7 @@ using Biz.Models;
 
 namespace Biz.Services
 {
-    public interface IContentServcie
+    public interface IResourceServcie
     {
         IBaseModule BaseModule { get; set; }
         string Content { get; set; }

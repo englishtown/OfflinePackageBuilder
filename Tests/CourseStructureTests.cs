@@ -36,6 +36,8 @@ namespace Tests
             dc.LocalMediaPath = @"d:\offline\media\";
             dc.ServicePrefix = "http://mobiledev.englishtown.com";
             dc.ResourcePrefix = "http://local.englishtown.com";
+            dc.ContentGenerateBy = LevelType.Level;
+            dc.MediaGenerateBy = LevelType.Lesson;
 
             var mock = new Mock<IDownloadService>();
             mock.Setup(foo => foo.DownloadFromPath(It.IsAny<Uri>())).Returns(content);
@@ -54,10 +56,13 @@ namespace Tests
                         {
                             foreach (Activity activity in step.Activities)
                             {
-                                IContentServcie activityContentService = new ActivityContentService(mock.Object, activity, dc);
+                                IResourceServcie activityContentService = new ActivityContentResourceService(new DownloadService(), activity, dc);
 
-                                IContentDownloadManager activityContent = new ActivityContentDownloadManager(mock.Object, activity, activityContentService, dc);
+                                IResourceDownloadManager activityContent = new ActivityContentResourceDownloadManager(mock.Object, activity, activityContentService, dc);
                                 activityContent.Download();
+
+                                // Download Media Resources.
+                                //IResourceDownloadManager mediaContent = new 
                             }
                         }
 
@@ -65,13 +70,15 @@ namespace Tests
                         mpm.Package();
                     }
 
+                    IResourceServcie ucs = new UnitContentResourceService(new DownloadService(), unit, dc);
                     // Get Unit content structure
-                    IContentDownloadManager unitContent = new UnitContentDownloadManager(mock.Object, unit, dc);
+                    IResourceDownloadManager unitContent = new UnitContentResourceDownloadManager(mock.Object, unit, ucs, dc);
                     unitContent.Download();
                 }
 
                 // Get level content structure
-                IContentDownloadManager levelContent = new UnitContentDownloadManager(mock.Object, level, dc);
+                IResourceServcie lcs = new LevelContentResourceService(new DownloadService(), level, dc);
+                IResourceDownloadManager levelContent = new UnitContentResourceDownloadManager(mock.Object, level, lcs, dc);
                 levelContent.Download();
 
                 IResourcePackageManager cpm = new ContentResourcePackageManager(level, dc);

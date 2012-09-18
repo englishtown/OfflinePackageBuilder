@@ -6,7 +6,7 @@ using Biz.Models;
 
 namespace Biz.Managers
 {
-    public interface IContentDownloadManager
+    public interface IResourceDownloadManager
     {
         void Download();
     }

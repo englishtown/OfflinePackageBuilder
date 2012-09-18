@@ -8,7 +8,7 @@ using Biz.Models;
 
 namespace Biz.Services
 {
-    public class MediaResourceService : IContentServcie
+    public class MediaResourceService : IResourceServcie
     {
         public Uri Url { get; set; }
 

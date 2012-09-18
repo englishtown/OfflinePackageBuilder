@@ -5,7 +5,7 @@ using Biz.Models;
 
 namespace Biz.Services
 {
-    public class ActivityContentService : IContentServcie
+    public class ActivityContentResourceService : IResourceServcie
     {
         private const string courseLink = "/services/school/courseware/GetActivityXml.ashx?actvityId={0}&partnerCode={1}&cultureCode={2}&siteVersion={3}&showBlurbs=0&consistentCacheSvr=true&jsoncallback=_jsonp_";
         private readonly Uri fullContentLink;
@@ -15,7 +15,7 @@ namespace Biz.Services
         public IBaseModule BaseModule { get; set; }
         public string Content { get; set; }
 
-        public ActivityContentService(IDownloadService downloadService, Activity activity, IConstants constants)
+        public ActivityContentResourceService(IDownloadService downloadService, Activity activity, IConstants constants)
         {
             // TODO:: How to test?
             this.downloadService = downloadService;

@@ -73,25 +73,28 @@
     <Compile Include="Extensions\DirectoryExtension.cs" />
     <Compile Include="Helper\PackageHelper.cs" />
     <Compile Include="IConstants.cs" />
-    <Compile Include="Managers\ActivityContentDownloadManager.cs" />
-    <Compile Include="Managers\ContentResourcePackageManager.cs" />
-    <Compile Include="Managers\IContentDownloadManager.cs" />
+    <Compile Include="Managers\ActivityContentResourceDownloadManager.cs" />
+    <Compile Include="Managers\ContentResourcePackageManager.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Managers\IResourceDownloadManager.cs" />
     <Compile Include="Managers\IResourcePackageManager.cs" />
-    <Compile Include="Managers\LevelContentDownloadManager.cs" />
+    <Compile Include="Managers\LevelContentResourceDownloadManager.cs" />
+    <Compile Include="Managers\MediaResourceDownloadManager.cs" />
     <Compile Include="Managers\MediaResourcePackageManager.cs" />
-    <Compile Include="Managers\UnitContentDownloadManager.cs" />
+    <Compile Include="Managers\UnitContentResourceDownloadManager.cs" />
     <Compile Include="Models\LevelType.cs" />
-    <Compile Include="Services\CourseContentService.cs" />
+    <Compile Include="Services\CourseContentResourceService.cs" />
     <Compile Include="Services\DownloadService.cs" />
     <Compile Include="Extensions\StringExtension.cs" />
-    <Compile Include="Services\IContentServcie.cs" />
+    <Compile Include="Services\IResourceServcie.cs" />
     <Compile Include="Managers\ICourseStructureManager.cs" />
     <Compile Include="Services\IDownloaService.cs" />
-    <Compile Include="Services\LevelContentService.cs" />
+    <Compile Include="Services\LevelContentResourceService.cs" />
     <Compile Include="Services\MediaResourceService.cs" />
     <Compile Include="Models\Activity.cs" />
     <Compile Include="Managers\CourseStructureManager.cs" />
-    <Compile Include="Services\ActivityContentService.cs" />
+    <Compile Include="Services\ActivityContentResourceService.cs" />
     <Compile Include="Models\Course.cs" />
     <Compile Include="Models\IBaseModule.cs" />
     <Compile Include="Models\Lesson.cs" />
@@ -99,7 +102,7 @@
     <Compile Include="Models\Step.cs" />
     <Compile Include="Models\Unit.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\UnitContentService.cs" />
+    <Compile Include="Services\UnitContentResourceService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
