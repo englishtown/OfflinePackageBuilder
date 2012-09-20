@@ -2,6 +2,7 @@
 using Biz.Models;
 using Biz.Managers;
 using Biz.Services;
+using Newtonsoft.Json;
 
 namespace Console
 {
@@ -28,6 +29,8 @@ namespace Console
 
             ICourseStructureManager cs = new CourseStructureManager(ds, courseContentResourceService, dc);
             Course course = cs.BuildCourseStructure();
+
+            var json = JsonConvert.SerializeObject(course);
 
             // Get all Activities under the level.
             foreach (Level level in course.Levels)

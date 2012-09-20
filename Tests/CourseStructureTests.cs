@@ -10,6 +10,7 @@ using System.IO;
 using Microsoft.Practices.EnterpriseLibrary.Logging;
 using Biz.Managers;
 using Biz.Services;
+using Newtonsoft.Json;
 
 namespace Tests
 {
@@ -52,7 +53,7 @@ namespace Tests
             ICourseStructureManager cs = new CourseStructureManager(ds.Object, crs.Object, dc);
             Course course = cs.BuildCourseStructure();
 
-
+            string json = JsonConvert.SerializeObject(course, Formatting.Indented);
 
             // Get all Activities under the level.
             foreach (Level level in course.Levels)

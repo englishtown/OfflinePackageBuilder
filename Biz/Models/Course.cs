@@ -5,20 +5,30 @@ using System.Text;
 using System.Collections;
 using Newtonsoft.Json.Linq;
 using Biz.Extensions;
+using Newtonsoft.Json;
 
 namespace Biz.Models
 {
+    [JsonObject(MemberSerialization.OptIn)]
     public class Course : IBaseModule
     {
+        [JsonProperty]
         public int Id { get; set; }
+
+        [JsonProperty]
         public string CourseName { get; set; }
+
+        [JsonProperty]
         public string CourseTypeCode { get; set; }
 
-        public IEnumerable<JToken> jModule { get; set; }
+        [JsonProperty]
+        public int MaxAge { get; set; }
 
-        public IBaseModule ParentModule { get; set; }
-
+        [JsonProperty]
         public IList Levels { get; set; }
+
+        public JToken jToken { get; set; }
+        public IBaseModule ParentModule { get; set; }
 
         public IList<IBaseModule> SubModules
         {
@@ -28,10 +38,12 @@ namespace Biz.Models
 
         public Course(int moduleId, Dictionary<string, List<JToken>> csArray)
         {
-            this.jModule =
+            var jModule =
                from p in csArray["course"].AsParallel()
                where p["id"].ToString().Equals("course!" + moduleId)
                select p;
+
+            this.jToken = jModule.First();
 
             //Build
             BuildModule();
@@ -41,16 +53,17 @@ namespace Biz.Models
 
         public void BuildModule()
         {
-            this.Id = jModule.First()["id"].ToString().GetId();
-            this.CourseName = jModule.First()["courseName"].ToString();
-            this.CourseTypeCode = jModule.First()["courseTypeCode"].ToString();
+            this.Id = jToken["id"].ToString().GetId();
+            this.CourseName = jToken["courseName"].ToString();
+            this.CourseTypeCode = jToken["courseTypeCode"].ToString();
+            this.MaxAge = int.Parse(jToken["maxAge"].ToString());
         }
 
         public void BuildSubmodule(Dictionary<string, List<JToken>> csArray)
         {
             this.Levels = new List<Level>();
 
-            foreach (var s in jModule.First()["levels"].Children())
+            foreach (var s in this.jToken["levels"].Children())
             {
                 var levelId = s["id"].ToString().GetId();
                 this.Levels.Add(new Level(csArray, levelId, this));

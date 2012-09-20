@@ -11,7 +11,7 @@ namespace Biz.Models
     {
         int Id { get; set; }
 
-        IEnumerable<JToken> jModule { get; set; }
+        JToken jToken { get; set; }
 
         IList<IBaseModule> SubModules { get; set; }
 
