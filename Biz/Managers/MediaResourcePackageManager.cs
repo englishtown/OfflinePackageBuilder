@@ -26,7 +26,7 @@ namespace Biz.Managers
 
         public void Package()
         {
-            // Todo
+            // Todo if file exist version +1
             Lesson lesson = module as Lesson;
             var lessonName = "lesson_" + lesson.Id;
 

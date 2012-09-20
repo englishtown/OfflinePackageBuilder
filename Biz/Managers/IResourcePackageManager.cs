@@ -7,6 +7,7 @@ namespace Biz.Managers
 {
     public interface IResourcePackageManager
     {
+        // if Package exist, verson +1
         void Package();
     }
 }

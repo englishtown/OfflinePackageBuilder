@@ -71,19 +71,24 @@
   <ItemGroup>
     <Compile Include="DefaultConstants.cs" />
     <Compile Include="Extensions\DirectoryExtension.cs" />
+    <Compile Include="Helper\MapfileHelper.cs" />
     <Compile Include="Helper\ActivityContentHelper.cs" />
     <Compile Include="Helper\PackageHelper.cs" />
     <Compile Include="IConstants.cs" />
     <Compile Include="Managers\ActivityContentResourceDownloadManager.cs" />
+    <Compile Include="Managers\ContentMapFileManager.cs" />
     <Compile Include="Managers\ContentResourcePackageManager.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Managers\IMapFileManager.cs" />
     <Compile Include="Managers\IResourceDownloadManager.cs" />
     <Compile Include="Managers\IResourcePackageManager.cs" />
     <Compile Include="Managers\LevelContentResourceDownloadManager.cs" />
+    <Compile Include="Managers\MediaMapFileManager.cs" />
     <Compile Include="Managers\MediaResourceDownloadManager.cs" />
     <Compile Include="Managers\MediaResourcePackageManager.cs" />
     <Compile Include="Managers\UnitContentResourceDownloadManager.cs" />
+    <Compile Include="Models\FileCheckInfo.cs" />
     <Compile Include="Models\LevelType.cs" />
     <Compile Include="Models\MediaResource.cs" />
     <Compile Include="Services\CourseContentResourceService.cs" />

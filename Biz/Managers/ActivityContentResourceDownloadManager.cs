@@ -10,11 +10,16 @@ namespace Biz.Managers
 {
     public class ActivityContentResourceDownloadManager : IResourceDownloadManager
     {
+        // Save to level_112\en\activity_4317.json
+        private string SavePath;
+
         private readonly IDownloadService downloadService;
         private readonly IConstants constants;
         private readonly IContentResourceServcie activityContentResourceService;
 
         public Activity Activity { get; set; }
+
+        public IList<FileCheckInfo> ResourceList { get; set; }
 
         // Download by level, unit or lesson, use this id as folder name.
         public int baseModelId;
@@ -27,6 +32,8 @@ namespace Biz.Managers
             this.constants = constants;
             this.activityContentResourceService = resourceService;
 
+            ResourceList = new List<FileCheckInfo>();
+
             this.Activity = activity as Activity;
 
             string oriContent = activityContentResourceService.Content;
@@ -37,48 +44,44 @@ namespace Biz.Managers
             ActivityContentHelper.ReplaceUrlToLocalResourcePath(ref oriContent);
 
             this.updatedContent = oriContent;
+
+            BuildDownloadResource();
         }
 
-        // Download activity by level?
-        public virtual void Download()
+        private void BuildDownloadResource()
         {
+            var filePath =  @"{0}_{1}" + @"\" + this.constants.CultureCode + @"\Activity_" + this.Activity.Id + ".json";
+            SavePath = this.constants.LocalContentPath + filePath;
+
             switch (this.constants.ContentGenerateBy)
             {
                 case LevelType.Level:
                     // activity, step, lesson, unit, level.
                     this.baseModelId = this.Activity.ParentModule.ParentModule.ParentModule.ParentModule.Id;
-                    DownloadActivityContentByLevel();
+                    this.SavePath = string.Format(SavePath, "level", this.baseModelId);
                     break;
                 case LevelType.Unit:
                     this.baseModelId = this.Activity.ParentModule.ParentModule.ParentModule.ParentModule.Id;
-                    DownloadActivityContentByUnit();
+                    this.SavePath = string.Format(SavePath, "unit", this.baseModelId);
                     break;
                 case LevelType.Lesson:
                     this.baseModelId = this.Activity.ParentModule.ParentModule.ParentModule.Id;
-                    DownloadActivityContentByLesson();
+                    this.SavePath = string.Format(SavePath, "lesson", this.baseModelId);
                     break;
             }
+
+            // Add download path to
+            FileCheckInfo f = new FileCheckInfo();
+            f.FileName = filePath;
+            // TODO:: To get SHA like value.
+            f.SHA = "1";
+            ResourceList.Add(f);
         }
 
-        // 
-        private void DownloadActivityContentByLevel()
+        // Download activity by level?
+        public virtual void Download()
         {
-            var path = this.constants.LocalContentPath + "level_" + this.baseModelId + @"\" + this.constants.CultureCode + @"\Activity_" + this.Activity.Id + ".json";
-            downloadService.SaveTo(this.updatedContent, path);
-        }
-
-        // 
-        private void DownloadActivityContentByUnit()
-        {
-            var path = this.constants.LocalContentPath + "unit_" + this.baseModelId + @"\" + this.constants.CultureCode + @"\Activity_" + this.Activity.Id + ".json";
-            downloadService.SaveTo(this.updatedContent, path);
-        }
-
-        // 
-        private void DownloadActivityContentByLesson()
-        {
-            var path = this.constants.LocalContentPath + "lesson_" + this.baseModelId + @"\" + this.constants.CultureCode + @"\Activity_" + this.Activity.Id + ".json";
-            downloadService.SaveTo(this.updatedContent, path);
+            downloadService.SaveTo(this.updatedContent, SavePath);
         }
     }
 }

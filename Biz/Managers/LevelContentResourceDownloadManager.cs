@@ -9,11 +9,14 @@ namespace Biz.Managers
 {
     public class LevelContentResourceDownloadManager : IResourceDownloadManager
     {
+        private string savePath;
+
         private readonly IDownloadService downloadService;
         private readonly IContentResourceServcie levelContentResourceService;
 
         private readonly IConstants constants;
 
+        public IList<FileCheckInfo> ResourceList { get; set; }
         public Level Level { get; set; }
 
         // 
@@ -24,13 +27,22 @@ namespace Biz.Managers
             this.constants = constants;
 
             this.Level = module as Level;
+
+            var filePath = string.Format(@"level_{0}\{1}\Level_{2}.json", this.Level.Id, this.constants.CultureCode, this.Level.Id);
+            this.savePath = this.constants.LocalContentPath + filePath;
+
+            this.ResourceList = new List<FileCheckInfo>();
+
+            FileCheckInfo f = new FileCheckInfo();
+            f.FileName = filePath;
+
+            this.ResourceList.Add(f);
         }
 
 
         public virtual void Download()
         {
-            var path = this.constants.LocalContentPath + "level_" + this.Level.Id + @"\" + this.constants.CultureCode + @"\Level_" + this.Level.Id + ".json";
-            downloadService.SaveTo(this.levelContentResourceService.Content, path);
+            downloadService.SaveTo(this.levelContentResourceService.Content, savePath);
         }
     }
 }

@@ -35,10 +35,14 @@ namespace Console
             // Get all Activities under the level.
             foreach (Level level in course.Levels)
             {
+                IMapFileManager contentMapFileManager = new ContentMapFileManager(level, dc);
+
                 foreach (Unit unit in level.Units)
                 {
                     foreach (Lesson lesson in unit.Lessons)
                     {
+                        IMapFileManager mediaMapFileManager = new MediaMapFileManager(lesson, dc);
+
                         foreach (Step step in lesson.Steps)
                         {
                             foreach (Activity activity in step.Activities)
@@ -47,29 +51,45 @@ namespace Console
 
                                 IResourceDownloadManager activityContent = new ActivityContentResourceDownloadManager(ds, activity, activityContentService, dc);
                                 activityContent.Download();
+                                contentMapFileManager.Add(activityContent.ResourceList);
 
                                 IResourceDownloadManager mediaResource = new MediaResourceDownloadManager(ds, activity, activityContentService, dc);
                                 mediaResource.Download();
+                                mediaMapFileManager.Add(mediaResource.ResourceList);
                             }
                         }
 
-                        IResourcePackageManager mpm = new MediaResourcePackageManager(lesson, dc);
-                        mpm.Package();
+                        // Update Mapfile.
+                        // TODO
+
+
+                        if (mediaMapFileManager.CreateOrUpdated())
+                        {
+                            // Package by..
+                            IResourcePackageManager mpm = new MediaResourcePackageManager(lesson, dc);
+                            mpm.Package();
+                        }
                     }
 
                     // Get Unit content structure
                     IContentResourceServcie ucs = new UnitContentResourceService(ds, unit.Id, dc);
                     IResourceDownloadManager unitContent = new UnitContentResourceDownloadManager(ds, unit, ucs, dc);
                     unitContent.Download();
+                    contentMapFileManager.Add(unitContent.ResourceList);
                 }
 
                 // Get level content structure
                 IContentResourceServcie lcs = new LevelContentResourceService(ds, level.Id, dc);
                 IResourceDownloadManager levelContent = new LevelContentResourceDownloadManager(ds, level, lcs, dc);
                 levelContent.Download();
+                contentMapFileManager.Add(levelContent.ResourceList);
 
-                IResourcePackageManager cpm = new ContentResourcePackageManager(level, dc);
-                cpm.Package();
+                if (contentMapFileManager.CreateOrUpdated())
+                {
+                    // if the local mapfile is different with new, just repackage and replace it.
+                    IResourcePackageManager cpm = new ContentResourcePackageManager(level, dc);
+                    cpm.Package();
+                }
             }
         }
     }

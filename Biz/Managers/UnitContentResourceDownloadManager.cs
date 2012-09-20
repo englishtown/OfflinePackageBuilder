@@ -9,6 +9,8 @@ namespace Biz.Managers
 {
     public class UnitContentResourceDownloadManager : IResourceDownloadManager
     {
+        private string savePath;
+
         private readonly IDownloadService downloadService;
         private readonly IConstants constants;
         private readonly IContentResourceServcie unitContentService;
@@ -17,6 +19,7 @@ namespace Biz.Managers
         public int baseModelId;
 
         public Unit Unit { get; set; }
+        public IList<FileCheckInfo> ResourceList { get; set; }
 
         // 
         public UnitContentResourceDownloadManager(IDownloadService downloadService, IBaseModule unit, IContentResourceServcie unitContentService, IConstants constants)
@@ -26,28 +29,39 @@ namespace Biz.Managers
             this.unitContentService = unitContentService;
 
             this.Unit = unit as Unit;
+
+            this.ResourceList = new List<FileCheckInfo>();
+            this.BuildDownloadResource();
         }
 
-        // Download activity by level?
-        public virtual void Download()
+        private void BuildDownloadResource()
         {
-            // TODO
+            this.savePath = this.constants.LocalContentPath + @"{0}_{1}" + @"\" + this.constants.CultureCode + @"\Unit_" + this.Unit.Id + ".json";
+
             switch (this.constants.ContentGenerateBy)
             {
                 case LevelType.Level:
                     // activity, step, lesson, unit, level.
                     this.baseModelId = this.Unit.ParentModule.Id;
-                    DownloadActivityContentByLevel();
+                    this.savePath = string.Format(savePath, "level", this.baseModelId);
                     break;
             }
+
+            // Add download path to
+            FileCheckInfo f = new FileCheckInfo();
+            f.FileName = this.savePath;
+            // TODO:: To get SHA like value.
+            f.SHA = "2";
+            ResourceList.Add(f);
         }
 
-        // 
-        private void DownloadActivityContentByLevel()
+
+        // Download activity by level?
+        public virtual void Download()
         {
-            var path = this.constants.LocalContentPath + "level_" + this.baseModelId + @"\" + this.constants.CultureCode + @"\Unit_" + this.Unit.Id + ".json";
-            downloadService.SaveTo(this.unitContentService.Content, path);
+            downloadService.SaveTo(this.unitContentService.Content, this.savePath);
         }
+
 
     }
 }

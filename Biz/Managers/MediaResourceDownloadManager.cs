@@ -12,11 +12,13 @@ namespace Biz.Managers
 {
     public class MediaResourceDownloadManager : IResourceDownloadManager
     {
+        private string savePath;
         private readonly IDownloadService downloadService;
         private readonly IContentResourceServcie activityContentResourceService;
 
         private readonly IConstants constants;
         private readonly IList<string> mediaList;
+        public IList<FileCheckInfo> ResourceList { get; set; }
 
         //activity
         private readonly IBaseModule baseModule;
@@ -30,6 +32,16 @@ namespace Biz.Managers
 
             string oriContent = this.activityContentResourceService.Content;
             mediaList = ActivityContentHelper.GetMediaResources(ref oriContent);
+
+            this.ResourceList = new List<FileCheckInfo>();
+
+            // Build ResourceList for Mapfile.
+            foreach (var m in mediaList)
+            {
+                FileCheckInfo f = new FileCheckInfo();
+                f.FileName = m;
+                ResourceList.Add(f);
+            }
         }
 
         public virtual void Download()

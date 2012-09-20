@@ -18,7 +18,6 @@ namespace Biz.Services
 
         public ActivityContentResourceService(IDownloadService downloadService, int activityId, IConstants constants)
         {
-            // TODO:: How to test?
             this.downloadService = downloadService;
 
             this.ModuleId = activityId;
@@ -29,27 +28,7 @@ namespace Biz.Services
             // Download activity content.
             string oriContent = downloadService.DownloadFromPath(this.fullContentLink);
 
-
             this.Content = oriContent;
-        }
-
-        /// Get the list of media resource path in the activity.</returns>
-        public IList<string> GetMediaResources(string activityContent)
-        {
-            IList<string> list = new List<string>();
-
-            Regex r = new Regex(@"(?<=http://\w+.englishtown.com)/Juno/[\s\S]*?(\.mp3|\.jpg|\.png|\.gif|\.bmp|\.mp4|\.f4v|\.m3u8|\.swf)", RegexOptions.IgnoreCase);
-            MatchCollection m = r.Matches(activityContent);
-
-            for (int j = 0; j < m.Count; j++)
-            {
-                var a = m[j].Value.ToLower();
-                list.Add(a);
-            }
-
-            return list;
-        }
-
-       
+        }       
     }
 }
