@@ -19,7 +19,7 @@ namespace Biz.Managers
 
         public Activity Activity { get; set; }
 
-        public IList<FileCheckInfo> ResourceList { get; set; }
+        public IList<MapfileItem> ResourceList { get; set; }
 
         // Download by level, unit or lesson, use this id as folder name.
         public int baseModelId;
@@ -32,7 +32,7 @@ namespace Biz.Managers
             this.constants = constants;
             this.activityContentResourceService = resourceService;
 
-            ResourceList = new List<FileCheckInfo>();
+            ResourceList = new List<MapfileItem>();
 
             this.Activity = activity as Activity;
 
@@ -71,7 +71,7 @@ namespace Biz.Managers
             }
 
             // Add download path to
-            FileCheckInfo f = new FileCheckInfo();
+            MapfileItem f = new MapfileItem();
             f.FileName = filePath;
             // TODO:: To get SHA like value.
             f.SHA = "1";

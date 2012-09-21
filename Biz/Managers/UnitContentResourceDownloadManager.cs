@@ -19,7 +19,7 @@ namespace Biz.Managers
         public int baseModelId;
 
         public Unit Unit { get; set; }
-        public IList<FileCheckInfo> ResourceList { get; set; }
+        public IList<MapfileItem> ResourceList { get; set; }
 
         // 
         public UnitContentResourceDownloadManager(IDownloadService downloadService, IBaseModule unit, IContentResourceServcie unitContentService, IConstants constants)
@@ -30,7 +30,7 @@ namespace Biz.Managers
 
             this.Unit = unit as Unit;
 
-            this.ResourceList = new List<FileCheckInfo>();
+            this.ResourceList = new List<MapfileItem>();
             this.BuildDownloadResource();
         }
 
@@ -48,7 +48,7 @@ namespace Biz.Managers
             }
 
             // Add download path to
-            FileCheckInfo f = new FileCheckInfo();
+            MapfileItem f = new MapfileItem();
             f.FileName = this.savePath;
             // TODO:: To get SHA like value.
             f.SHA = "2";

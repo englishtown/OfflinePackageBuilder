@@ -8,7 +8,7 @@ namespace Biz.Managers
 {
     public interface IResourceDownloadManager
     {
-        IList<FileCheckInfo> ResourceList { get; set; }
+        IList<MapfileItem> ResourceList { get; set; }
 
         void Download();
     }

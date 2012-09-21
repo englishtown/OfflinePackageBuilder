@@ -76,20 +76,21 @@
     <Compile Include="Helper\PackageHelper.cs" />
     <Compile Include="IConstants.cs" />
     <Compile Include="Managers\ActivityContentResourceDownloadManager.cs" />
-    <Compile Include="Managers\ContentMapFileManager.cs" />
+    <Compile Include="Managers\ContentMapfileManager.cs" />
     <Compile Include="Managers\ContentResourcePackageManager.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Managers\IMapFileManager.cs" />
+    <Compile Include="Managers\IMapfileManager.cs" />
     <Compile Include="Managers\IResourceDownloadManager.cs" />
     <Compile Include="Managers\IResourcePackageManager.cs" />
     <Compile Include="Managers\LevelContentResourceDownloadManager.cs" />
-    <Compile Include="Managers\MediaMapFileManager.cs" />
+    <Compile Include="Managers\MediaMapfileManager.cs" />
     <Compile Include="Managers\MediaResourceDownloadManager.cs" />
     <Compile Include="Managers\MediaResourcePackageManager.cs" />
     <Compile Include="Managers\UnitContentResourceDownloadManager.cs" />
-    <Compile Include="Models\FileCheckInfo.cs" />
+    <Compile Include="Models\MapfileItem.cs" />
     <Compile Include="Models\LevelType.cs" />
+    <Compile Include="Models\Mapfile.cs" />
     <Compile Include="Models\MediaResource.cs" />
     <Compile Include="Services\CourseContentResourceService.cs" />
     <Compile Include="Services\DownloadService.cs" />

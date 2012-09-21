@@ -16,7 +16,7 @@ namespace Biz.Managers
 
         private readonly IConstants constants;
 
-        public IList<FileCheckInfo> ResourceList { get; set; }
+        public IList<MapfileItem> ResourceList { get; set; }
         public Level Level { get; set; }
 
         // 
@@ -31,9 +31,9 @@ namespace Biz.Managers
             var filePath = string.Format(@"level_{0}\{1}\Level_{2}.json", this.Level.Id, this.constants.CultureCode, this.Level.Id);
             this.savePath = this.constants.LocalContentPath + filePath;
 
-            this.ResourceList = new List<FileCheckInfo>();
+            this.ResourceList = new List<MapfileItem>();
 
-            FileCheckInfo f = new FileCheckInfo();
+            MapfileItem f = new MapfileItem();
             f.FileName = filePath;
 
             this.ResourceList.Add(f);

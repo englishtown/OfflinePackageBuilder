@@ -18,7 +18,7 @@ namespace Biz.Managers
 
         private readonly IConstants constants;
         private readonly IList<string> mediaList;
-        public IList<FileCheckInfo> ResourceList { get; set; }
+        public IList<MapfileItem> ResourceList { get; set; }
 
         //activity
         private readonly IBaseModule baseModule;
@@ -33,12 +33,12 @@ namespace Biz.Managers
             string oriContent = this.activityContentResourceService.Content;
             mediaList = ActivityContentHelper.GetMediaResources(ref oriContent);
 
-            this.ResourceList = new List<FileCheckInfo>();
+            this.ResourceList = new List<MapfileItem>();
 
             // Build ResourceList for Mapfile.
             foreach (var m in mediaList)
             {
-                FileCheckInfo f = new FileCheckInfo();
+                MapfileItem f = new MapfileItem();
                 f.FileName = m;
                 ResourceList.Add(f);
             }

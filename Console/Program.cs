@@ -35,13 +35,13 @@ namespace Console
             // Get all Activities under the level.
             foreach (Level level in course.Levels)
             {
-                IMapFileManager contentMapFileManager = new ContentMapFileManager(level, dc);
+                IMapfileManager contentMapFileManager = new ContentMapfileManager(level, dc);
 
                 foreach (Unit unit in level.Units)
                 {
                     foreach (Lesson lesson in unit.Lessons)
                     {
-                        IMapFileManager mediaMapFileManager = new MediaMapFileManager(lesson, dc);
+                        IMapfileManager mediaMapFileManager = new MediaMapfileManager(lesson, dc);
 
                         foreach (Step step in lesson.Steps)
                         {
