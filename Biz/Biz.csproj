@@ -74,6 +74,7 @@
     <Compile Include="Helper\MapfileHelper.cs" />
     <Compile Include="Helper\ActivityContentHelper.cs" />
     <Compile Include="Helper\PackageHelper.cs" />
+    <Compile Include="Helper\VersionSupportHelper.cs" />
     <Compile Include="IConstants.cs" />
     <Compile Include="Managers\ActivityContentResourceDownloadManager.cs" />
     <Compile Include="Managers\ContentMapfileManager.cs" />
@@ -92,6 +93,7 @@
     <Compile Include="Models\LevelType.cs" />
     <Compile Include="Models\Mapfile.cs" />
     <Compile Include="Models\MediaResource.cs" />
+    <Compile Include="Models\PackageInfo.cs" />
     <Compile Include="Services\CourseContentResourceService.cs" />
     <Compile Include="Services\DownloadService.cs" />
     <Compile Include="Extensions\StringExtension.cs" />
