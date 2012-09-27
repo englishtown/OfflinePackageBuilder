@@ -56,6 +56,8 @@ namespace Console
                                 IResourceDownloadManager mediaResource = new MediaResourceDownloadManager(ds, activity, activityContentService, dc);
                                 mediaResource.Download();
                                 mediaMapFileManager.Add(mediaResource.ResourceList);
+
+                                System.Console.WriteLine("Downlaoded Contontent & Media -- Activity: " + activity.Id);
                             }
                         }
 
@@ -68,6 +70,8 @@ namespace Console
                             // Package by..
                             IResourcePackageManager mpm = new MediaResourcePackageManager(lesson, dc);
                             mpm.Package();
+
+                            System.Console.WriteLine("Package -- Lesson: " + lesson.Id);
                         }
                     }
 
@@ -76,6 +80,8 @@ namespace Console
                     IResourceDownloadManager unitContent = new UnitContentResourceDownloadManager(ds, unit, ucs, dc);
                     unitContent.Download();
                     contentMapFileManager.Add(unitContent.ResourceList);
+
+                    System.Console.WriteLine("Downloaded -- Unit: " + unit.Id);
                 }
 
                 // Get level content structure
@@ -89,6 +95,7 @@ namespace Console
                     // if the local mapfile is different with new, just repackage and replace it.
                     IResourcePackageManager cpm = new ContentResourcePackageManager(level, dc);
                     cpm.Package();
+                    System.Console.WriteLine("Packaged -- Level: " + level.Id);
                 }
             }
         }
