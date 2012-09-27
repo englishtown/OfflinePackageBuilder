@@ -106,6 +106,10 @@
       {
         id:"activity!4327",
         collapsed:true
+      },
+	  {
+        id:"activity!3398",
+        collapsed:true
       }
     ],
     id:"step!1541",
@@ -116,14 +120,23 @@
     activityNo:1,
     gradeMode_id:4,
     activityTemplate_id:18,
-    packageSize:3058479,
-    lastModify:"/Date(1345512772924)/",
-    remotePath:"/activity-4327.zip",
     activityContent:{
       id:"activity_content!7624",
       collapsed:true
     },
     id:"activity!4327",
+    maxAge:86400,
+    collapsed:false
+  },
+  {
+    activityNo:2,
+    gradeMode_id:4,
+    activityTemplate_id:1,
+    activityContent:{
+      id:"activity_content!7624",
+      collapsed:true
+    },
+    id:"activity!3398",
     maxAge:86400,
     collapsed:false
   }

@@ -72,7 +72,7 @@ namespace Biz.Managers
 
             // Add download path to
             MapfileItem f = new MapfileItem();
-            f.FileName = filePath;
+            f.FileName = string.Format(filePath, "level", this.baseModelId); ;
             // TODO:: To get SHA like value.
             f.SHA = "1";
             ResourceList.Add(f);

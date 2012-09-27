@@ -5,6 +5,7 @@ using System.Text;
 using System.Net;
 using System.IO;
 using Microsoft.Practices.EnterpriseLibrary.Logging;
+using System.IO.IsolatedStorage;
 
 namespace Biz.Services
 {
@@ -22,7 +23,7 @@ namespace Biz.Services
             }
             catch (WebException ex)
             {
-                Logger.Write(url.ToString() + "\r\n" +  ex);
+                Logger.Write(url.ToString() + "\r\n" + ex);
             }
 
             return courseContent;
@@ -38,18 +39,51 @@ namespace Biz.Services
 
         public void MediaDownload(Uri url, string path)
         {
-            WebClient c = new WebClient();
-
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
             try
             {
-                CreateFoler(path);
-                c.DownloadFile(url, path);
+                using (var responseForMedia = request.GetResponse())
+                {
+                    using (Stream st = responseForMedia.GetResponseStream())
+                    {
+                        WriteToFile(st, path);
+                    }
+                }
             }
             catch (WebException ex)
             {
-                Logger.Write(url.ToString() + "\r\n" + ex);
+                Logger.Write(path.ToString() + "\r\n" + ex);
+            }           
+        }
+
+        private void WriteToFile(Stream st, string path)
+        {
+            try
+            {
+                CreateFoler(path);
+
+                using (Stream fs = new System.IO.FileStream(path, System.IO.FileMode.CreateNew))
+                {
+                    long totalDownloadedByte = 0;
+                    byte[] buffer = new byte[1024];
+                    int osize = st.Read(buffer, 0, (int)buffer.Length);
+                    while (osize > 0)
+                    {
+                        totalDownloadedByte = osize + totalDownloadedByte;
+
+                        fs.Write(buffer, 0, osize);
+
+                        osize = st.Read(buffer, 0, (int)buffer.Length);
+                    }
+                }
+            }
+            catch (WebException ex)
+            {
+                Logger.Write(path.ToString() + "\r\n" + ex);
             }
         }
+
+
 
         public void SaveTo(string content, string path)
         {

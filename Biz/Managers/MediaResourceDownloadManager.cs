@@ -51,7 +51,7 @@ namespace Biz.Managers
                 string path = this.constants.LocalMediaPath + "lesson_" + baseModule.ParentModule.ParentModule.Id + fileName;
 
                 if (FileExist(path))
-                    return;
+                    continue;
 
                 var Url = new Uri(constants.ResourcePrefix + fileName);
                 this.downloadService.MediaDownload(Url, path);
