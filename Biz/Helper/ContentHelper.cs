@@ -6,7 +6,7 @@ using System.Text.RegularExpressions;
 
 namespace Biz.Helper
 {
-    public class ActivityContentHelper
+    public class ContentHelper
     {
         // Repalce live path to local.
         public static void ReplaceUrlToLocalResourcePath(ref string content)
@@ -15,12 +15,22 @@ namespace Biz.Helper
             //for the activity like activityId=29652
             string inlineLocalResourcePathPattern = "http://([0-9.]+|[a-z0-9\\-._~%]+.englishtown.com)";
 
+            string unitActivityResourcePathpattern = "\"http://([0-9.]+|[a-z0-9\\-._~%]+.englishtown.com)/services/school/courseware/GetActivityXml.ashx\\?actvityId=(?<id>[0-9]+).+?\"";
+
+
+            //step1: replace "http://local.englishtown.com/" to localResourcePath + "/";
+            //step2: replace "/services/school/courseware/GetActivityXml.ashx?actvityId=30135&areaCode=&marketCode=us&partnerCode=iLab&languageCode=&cultureCode=en-US&siteVersion=development&showBlurbs=0&consistentCacheSvr=true" to "/services/school/courseware/Activity_{0}_{MapFileConstants.DefaultCultureCode}_{MapFileConstants.LocalSiteVersion}.json"
+            ChangeContent(ref content, unitActivityResourcePathpattern,
+                //"eval(localContentPath)+'/Activity_4327.json'", 
+                match => string.Format("\"eval(localContentPath)+'/Activity_{0}.json'\"", match.Groups["id"])
+           );
+
             ChangeContent(ref content, localResourcePathPattern,
-                match => "localResourcePath+\""
+                match => "eval(localMediaPath)+\""
             );
 
             ChangeContent(ref content, inlineLocalResourcePathPattern,
-                match => "localResourcePath"
+                match => "eval(localMediaPath)"
             );
         }
 

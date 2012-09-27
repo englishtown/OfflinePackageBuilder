@@ -39,9 +39,9 @@ namespace Biz.Managers
             string oriContent = activityContentResourceService.Content;
 
             // Replace swf to jpg, flv to mp4
-            ActivityContentHelper.ReplaceUrlFileFormat(ref oriContent);
+            ContentHelper.ReplaceUrlFileFormat(ref oriContent);
 
-            ActivityContentHelper.ReplaceUrlToLocalResourcePath(ref oriContent);
+            ContentHelper.ReplaceUrlToLocalResourcePath(ref oriContent);
 
             this.updatedContent = oriContent;
 

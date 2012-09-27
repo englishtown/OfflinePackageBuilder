@@ -31,7 +31,7 @@ namespace Biz.Managers
             this.activityContentResourceService = activityContentResourceService;
 
             string oriContent = this.activityContentResourceService.Content;
-            mediaList = ActivityContentHelper.GetMediaResources(ref oriContent);
+            mediaList = ContentHelper.GetMediaResources(ref oriContent);
 
             this.ResourceList = new List<MapfileItem>();
 

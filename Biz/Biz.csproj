@@ -72,7 +72,7 @@
     <Compile Include="DefaultConstants.cs" />
     <Compile Include="Extensions\DirectoryExtension.cs" />
     <Compile Include="Helper\MapfileHelper.cs" />
-    <Compile Include="Helper\ActivityContentHelper.cs" />
+    <Compile Include="Helper\ContentHelper.cs" />
     <Compile Include="Helper\PackageHelper.cs" />
     <Compile Include="Helper\VersionSupportHelper.cs" />
     <Compile Include="IConstants.cs" />

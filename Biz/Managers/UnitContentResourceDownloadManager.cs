@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Biz.Models;
 using Biz.Services;
+using Biz.Helper;
 
 namespace Biz.Managers
 {
@@ -21,6 +22,8 @@ namespace Biz.Managers
         public Unit Unit { get; set; }
         public IList<MapfileItem> ResourceList { get; set; }
 
+        public string updatedContent;
+
         // 
         public UnitContentResourceDownloadManager(IDownloadService downloadService, IBaseModule unit, IContentResourceServcie unitContentService, IConstants constants)
         {
@@ -29,6 +32,14 @@ namespace Biz.Managers
             this.unitContentService = unitContentService;
 
             this.Unit = unit as Unit;
+
+            var originalContent = unitContentService.Content;
+
+            // Replace swf to jpg, flv to mp4
+            ContentHelper.ReplaceUrlFileFormat(ref originalContent);
+            ContentHelper.ReplaceUrlToLocalResourcePath(ref originalContent);
+
+            this.updatedContent = originalContent;
 
             this.ResourceList = new List<MapfileItem>();
             this.BuildDownloadResource();
@@ -59,7 +70,7 @@ namespace Biz.Managers
         // Download activity by level?
         public virtual void Download()
         {
-            downloadService.SaveTo(this.unitContentService.Content, this.savePath);
+            downloadService.SaveTo(this.updatedContent, this.savePath);
         }
 
 
