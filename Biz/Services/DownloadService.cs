@@ -39,6 +39,12 @@ namespace Biz.Services
 
         public void MediaDownload(Uri url, string path)
         {
+            if (url.ToString().EndsWith(".mp4"))
+            {
+                string f4vRemotePath = url.ToString().Replace(".mp4", ".f4v");
+                url = new Uri(f4vRemotePath);
+            }
+
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
             try
             {

@@ -9,7 +9,7 @@ namespace Biz.Services
 {
     public class CourseContentResourceService : IContentResourceServcie
     {
-        private const string courseLink = "/services/school/query?q=course!{0}.*&c=siteversion={1}|cultureCode={2}|partnerCode={3}";
+        private const string courseLink = "/services/school/query?q=course!{0}.levels.units.lessons.steps.activities&c=siteversion={1}|cultureCode={2}|partnerCode={3}";
 
         // not used in here.
         public int ModuleId { get; set; }

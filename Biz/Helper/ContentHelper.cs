@@ -78,7 +78,7 @@ namespace Biz.Helper
 
             for (int j = 0; j < m.Count; j++)
             {
-                var a = m[j].Value.ToLower();
+                var a = m[j].Value;
                 list.Add(a);
             }
 
