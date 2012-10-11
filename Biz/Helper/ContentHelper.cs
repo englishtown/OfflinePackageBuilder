@@ -30,7 +30,7 @@ namespace Biz.Helper
             );
 
             ChangeContent(ref content, inlineLocalResourcePathPattern,
-                match => "eval(localMediaPath)"
+                match => ""
             );
         }
 

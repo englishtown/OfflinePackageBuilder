@@ -48,7 +48,10 @@ namespace Biz.Managers
         {
             foreach (var fileName in mediaList)
             {
-                string path = this.constants.LocalMediaPath + "lesson_" + baseModule.ParentModule.ParentModule.Id + fileName;
+                // Replace %20 in file to void iPad device can't find the resource issue.
+                var newfileName = fileName.Replace("%20", " ");
+
+                string path = this.constants.LocalMediaPath + "lesson_" + baseModule.ParentModule.ParentModule.Id + newfileName;
 
                 if (FileExist(path))
                     continue;

@@ -98,6 +98,28 @@
     collapsed:false
   },
   {
+	lessonNo: 3,
+	lessonTopic: "Giving phone numbers
+	",
+	lessonImage: {
+	id: "media!106175",
+	collapsed: true
+	},
+	lessonDescr: "By the end of this lesson, you will be able to give phone numbers.
+	",
+	lessonType_id: 1,
+	lessonTypeName: "Reading",
+	steps: [
+	{
+	id: "step!1587",
+	collapsed: true
+	}
+	],
+	id: "lesson!307",
+	maxAge: 86400,
+	collapsed: false
+  },
+  {
     stepNo:1,
     stepTitle:"Hi!",
     stepType_id:0,
@@ -115,6 +137,22 @@
     id:"step!1541",
     maxAge:86400,
     collapsed:false
+  },
+  {
+	stepNo: 2,
+	stepTitle: "Numbers 0-10
+	",
+	stepType_id: 2,
+	stepTypeName: "Vocabulary",
+	activities: [
+	{
+	id: "activity!29652",
+	collapsed: true
+	}
+	],
+	id: "step!1587",
+	maxAge: 86400,
+	collapsed: false
   },
   {
     activityNo:1,
@@ -139,5 +177,17 @@
     id:"activity!3398",
     maxAge:86400,
     collapsed:false
+  },
+  {
+	activityNo: 1,
+	gradeMode_id: 1,
+	activityTemplate_id: 28,
+	activityContent: {
+		id: "activity_content!77475",
+		collapsed: true
+	},
+	id: "activity!29652",
+	maxAge: 86400,
+	collapsed: false
   }
 ]
