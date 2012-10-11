@@ -21,7 +21,7 @@ namespace Console
             dc.LocalContentPath = @"d:\offline\content\";
             dc.LocalMediaPath = @"d:\offline\media\";
             dc.ServicePrefix = "http://mobiledev.englishtown.com";
-            dc.ResourcePrefix = "http://local.englishtown.com";
+            dc.ResourcePrefix = "http://mobiledev.englishtown.com";
             dc.ContentGenerateBy = LevelType.Level;
             dc.MediaGenerateBy = LevelType.Lesson;
 
