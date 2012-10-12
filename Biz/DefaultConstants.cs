@@ -31,6 +31,8 @@ namespace Biz
         //= @"d:\offline\media\";
         public virtual string LocalMediaPath { get; set; }
 
+        public virtual string LocalStructurePath { get; set; }
+
         //  = "http://mobiledev.englishtown.com";
         public virtual string ServicePrefix { get; set; }
 

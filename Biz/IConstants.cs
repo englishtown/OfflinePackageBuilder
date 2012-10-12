@@ -19,6 +19,7 @@ namespace Biz
 
         string LocalContentPath { get; set; }
         string LocalMediaPath { get; set; }
+        string LocalStructurePath { get; set; }
 
         string ServicePrefix { get; set; }
         string ResourcePrefix { get; set; }
