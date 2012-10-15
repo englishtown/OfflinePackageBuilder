@@ -29,6 +29,9 @@ namespace Biz.Services
 
             // Download activity content.
             this.Content = downloadService.DownloadFromPath(this.fullContentLink);
+
+            // Covert to JSON
+
         }
     }
 }
