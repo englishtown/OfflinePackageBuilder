@@ -15,7 +15,7 @@ namespace Console
 
             DefaultConstants dc = new DefaultConstants();
             dc.CourseId = 201;
-            dc.CultureCode = "es";
+            dc.CultureCode = "zh-CN";
             dc.SiteVersion = "development";
             dc.PartnerCode = "none";
             dc.LocalContentPath = @"d:\offline\content\";
@@ -38,52 +38,52 @@ namespace Console
             {
                 IMapfileManager contentMapFileManager = new ContentMapfileManager(level, dc);
 
-                //foreach (Unit unit in level.Units)
-                //{
-                //    foreach (Lesson lesson in unit.Lessons)
-                //    {
-                //        IMapfileManager mediaMapFileManager = new MediaMapfileManager(lesson, dc);
+                foreach (Unit unit in level.Units)
+                {
+                    foreach (Lesson lesson in unit.Lessons)
+                    {
+                        IMapfileManager mediaMapFileManager = new MediaMapfileManager(lesson, dc);
 
-                //        foreach (Step step in lesson.Steps)
-                //        {
-                //            foreach (Activity activity in step.Activities)
-                //            {
-                //                IContentResourceServcie activityContentService = new ActivityContentResourceService(ds, activity.Id, dc);
+                        foreach (Step step in lesson.Steps)
+                        {
+                            foreach (Activity activity in step.Activities)
+                            {
+                                IContentResourceServcie activityContentService = new ActivityContentResourceService(ds, activity.Id, dc);
 
-                //                IResourceDownloadManager activityContent = new ActivityContentResourceDownloadManager(ds, activity, activityContentService, dc);
-                //                activityContent.Download();
-                //                contentMapFileManager.Add(activityContent.ResourceList);
+                                IResourceDownloadManager activityContent = new ActivityContentResourceDownloadManager(ds, activity, activityContentService, dc);
+                                activityContent.Download();
+                                contentMapFileManager.Add(activityContent.ResourceList);
 
-                //                IResourceDownloadManager mediaResource = new MediaResourceDownloadManager(ds, activity, activityContentService, dc);
-                //                mediaResource.Download();
-                //                mediaMapFileManager.Add(mediaResource.ResourceList);
+                                IResourceDownloadManager mediaResource = new MediaResourceDownloadManager(ds, activity, activityContentService, dc);
+                                mediaResource.Download();
+                                mediaMapFileManager.Add(mediaResource.ResourceList);
 
-                //                System.Console.WriteLine("Downlaoded Contontent & Media -- Activity: " + activity.Id);
-                //            }
-                //        }
+                                System.Console.WriteLine("Downloaded Content & Media -- Activity: " + activity.Id);
+                            }
+                        }
 
-                //        // Update Mapfile.
-                //        // TODO
+                        // Update Mapfile.
+                        // TODO
 
 
-                //        if (mediaMapFileManager.CreateOrUpdated())
-                //        {
-                //            // Package by..
-                //            IResourcePackageManager mpm = new MediaResourcePackageManager(lesson, dc);
-                //            mpm.Package();
+                        if (mediaMapFileManager.CreateOrUpdated())
+                        {
+                            // Package by..
+                            IResourcePackageManager mpm = new MediaResourcePackageManager(lesson, dc);
+                            mpm.Package();
 
-                //            System.Console.WriteLine("Package -- Lesson: " + lesson.Id);
-                //        }
-                //    }
+                            System.Console.WriteLine("Package -- Lesson: " + lesson.Id);
+                        }
+                    }
 
-                //    // Get Unit content structure
-                //    IContentResourceServcie ucs = new UnitContentResourceService(ds, unit.Id, dc);
-                //    IResourceDownloadManager unitContent = new UnitContentResourceDownloadManager(ds, unit, ucs, dc);
-                //    unitContent.Download();
-                //    contentMapFileManager.Add(unitContent.ResourceList);
+                    // Get Unit content structure
+                    IContentResourceServcie ucs = new UnitContentResourceService(ds, unit.Id, dc);
+                    IResourceDownloadManager unitContent = new UnitContentResourceDownloadManager(ds, unit, ucs, dc);
+                    unitContent.Download();
+                    contentMapFileManager.Add(unitContent.ResourceList);
 
-                //    System.Console.WriteLine("Downloaded -- Unit: " + unit.Id);
-                //}
+                    System.Console.WriteLine("Downloaded -- Unit: " + unit.Id);
+                }
 
                 // Get level content structure
                 IContentResourceServcie lcs = new LevelContentResourceService(ds, level.Id, dc);
